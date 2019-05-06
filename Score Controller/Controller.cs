@@ -205,7 +205,7 @@ namespace Score_Controller
             StopScene("MIC1_RADIO_DISABLE");
         }
 
-        static UIMenuListItem GetCurrentSet() // Determining the currently selected Score Set
+        static UIMenuListItem GetCurrentSet() // Determining the currently selected Score Set; a #NEWCOLLECTION must be added to this list
         {
             UIMenuListItem set = null;
 
@@ -318,7 +318,7 @@ namespace Score_Controller
 
             if (controllerMain.CurrentSelection == 0)
             {
-                switch (index) // Setting the needed tracklist based on the selected Score Set
+                switch (index) // Setting the needed tracklist based on the selected Score Set; if there's a #NEWCOLLECTION, this list needs to be changed
                 {
                     case 0:
                         controllerMain.RemoveItemAt(1);

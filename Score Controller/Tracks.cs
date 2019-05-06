@@ -46,7 +46,7 @@ namespace Score_Controller
             Sapstick
         };
 
-        public static void AddTracks() // Adding tracks
+        public static void AddTracks() // Adding tracks; a #NEWCOLLECTION must be added to this list
         {
             foreach (ScoreTrack track in TrackList)
             {

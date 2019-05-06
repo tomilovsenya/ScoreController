@@ -15,7 +15,7 @@ namespace Score_Controller
         public static ScoreCollection ArenaWar = new ScoreCollection("Arena War", "Arena War", "MC_AW_MUSIC");
         public static ScoreCollection WoodyJackson = new ScoreCollection("Woody Jackson's Tracks", "Woody Jackson", null);
 
-        public static List<ScoreCollection> CollectionsList = new List<ScoreCollection>()
+        public static List<ScoreCollection> CollectionsList = new List<ScoreCollection>() // A #NEWCOLLECTION must be added to this list
         {
             Assault,
             Doomsday,
