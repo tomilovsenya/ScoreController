@@ -9,12 +9,19 @@ namespace Score_Controller
 {
     public class Collections
     {
+        public static ScoreCollection Assault = new ScoreCollection("Southern San Andreas Super Sport Series", "Assault", "ASSAULT");
+        public static ScoreCollection Doomsday = new ScoreCollection("The Doomsday Heist", "Doomsday", "HEIST2");
+        public static ScoreCollection Smuggler = new ScoreCollection("Smuggler's Run", "Smuggler's Run", "SMUGGLER");
+        public static ScoreCollection ArenaWar = new ScoreCollection("Arena War", "Arena War", "MC_AW_MUSIC");
+        public static ScoreCollection WoodyJackson = new ScoreCollection("Woody Jackson's Tracks", "Woody Jackson", null);
+
         public static List<ScoreCollection> CollectionsList = new List<ScoreCollection>()
         {
-            new ScoreCollection("Southern San Andreas Super Sport Series", "Assault", "ASSAULT"),
-            new ScoreCollection("The Doomsday Heist", "Doomsday", "HEIST2"),
-            new ScoreCollection("Smuggler's Run", "Smuggler's Run", "SMUGGLER"),
-            new ScoreCollection("Arena War", "Arena War", "MC_AW_MUSIC")
+            Assault,
+            Doomsday,
+            Smuggler,
+            ArenaWar,
+            WoodyJackson
         };
 
         public static void AddCollections() // Adding collections

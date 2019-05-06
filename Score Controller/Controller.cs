@@ -14,7 +14,7 @@ namespace Score_Controller
     public class Controller : Script
     {
         MenuPool controllerMenuPool;
-        UIMenu controllerMain;
+        private static UIMenu controllerMain;
 
         private static UIMenuListItem mainScoreCollection;
 
@@ -22,6 +22,7 @@ namespace Score_Controller
         private static UIMenuListItem mainSetDoomsday;
         private static UIMenuListItem mainSetSmuggler;
         private static UIMenuListItem mainSetArenaWar;
+        private static UIMenuListItem mainSetWoodyJackson;
 
         private static UIMenuListItem mainScoreIntensity;
         private static UIMenuCheckboxItem mainMuteSound;
@@ -31,24 +32,26 @@ namespace Score_Controller
         private static bool IsSoundMuted = false; // The field to tell if sound is muted; ВОЗМОЖНО, НЕ ПРИГОДИТСЯ
         private static bool IsRadioMuted = false; // The field to tell if radio is muted
 
-        private static ScoreTrack currentScoreTrack = Tracks.TracksList[0]; // Currently selected Score Track
+        private static ScoreTrack currentScoreTrack = null; // Currently selected Score Track
 
         public Controller()
         {
             Tracks.AddTracks(); // Adding all tracks
             Collections.AddCollections(); // Adding all collections
+            Intensities.AddIntensities(); // Adding all intensities
 
             controllerMenuPool = new MenuPool();
             controllerMain = new UIMenu(Text.controllerTitle, Text.controllerSubtitle);            
 
             controllerMain.AddItem(mainScoreCollection = new UIMenuListItem(Text.mainScoreCollectionTitle, Collections.scoreCollections, 0, Text.mainScoreCollectionDescr));
 
-            controllerMain.AddItem(mainSetAssault = new UIMenuListItem(Text.mainPlayScoreTitle, Tracks.tracksAssault, 0, Text.mainPlayAssaultDescr));
-            mainSetDoomsday = new UIMenuListItem(Text.mainPlayScoreTitle, Tracks.tracksDoomsday, 0, Text.mainPlayDoomsdayDescr);
-            mainSetSmuggler = new UIMenuListItem(Text.mainPlayScoreTitle, Tracks.tracksSmuggler, 0, Text.mainPlaySmugglerDescr);
-            mainSetArenaWar = new UIMenuListItem(Text.mainPlayScoreTitle, Tracks.tracksArenaWar, 0, Text.mainPlayArenaWarDescr);
+            controllerMain.AddItem(mainSetAssault = new UIMenuListItem(Text.mainPlayScoreTitle, Tracks.listAssault, 0, Text.mainPlayAssaultDescr));
+            mainSetDoomsday = new UIMenuListItem(Text.mainPlayScoreTitle, Tracks.listDoomsday, 0, Text.mainPlayDoomsdayDescr);
+            mainSetSmuggler = new UIMenuListItem(Text.mainPlayScoreTitle, Tracks.listSmuggler, 0, Text.mainPlaySmugglerDescr);
+            mainSetArenaWar = new UIMenuListItem(Text.mainPlayScoreTitle, Tracks.listArenaWar, 0, Text.mainPlayArenaWarDescr);
+            mainSetWoodyJackson = new UIMenuListItem(Text.mainPlayScoreTitle, Tracks.listWoodyJackson, 0, Text.mainPlayWoodyJacksonDescr);
 
-            controllerMain.AddItem(mainScoreIntensity = new UIMenuListItem(Text.mainScoreIntensityTitle, Tracks.scoreInts, 0, Text.mainScoreIntensityDescr));
+            controllerMain.AddItem(mainScoreIntensity = new UIMenuListItem(Text.mainScoreIntensityTitle, Intensities.listIntensities, 0, Text.mainScoreIntensityDescr));
             controllerMain.AddItem(mainMuteSound = new UIMenuCheckboxItem(Text.mainMuteSoundTitle, false, Text.mainMuteSoundDescr));
             controllerMain.AddItem(mainMuteRadio = new UIMenuCheckboxItem(Text.mainMuteRadioTitle, false, Text.mainMuteRadioDescr));
             
@@ -57,15 +60,24 @@ namespace Score_Controller
 
             controllerMenuPool.Add(controllerMain);
 
-            Tick += onTick;
-            KeyDown += onKeyDown;
+            Tick += OnTick;
+            KeyDown += OnKeyDown;
+            controllerMain.OnIndexChange += OnIndexChange;
             controllerMain.OnItemSelect += OnItemSelect;
             controllerMain.OnListChange += ListChangeHandler;
             controllerMain.OnCheckboxChange += OnCheckboxChange;
             controllerMain.RefreshIndex();
         }
 
-        #region 
+        public List<UIMenuListItem> CollectionLists = new List<UIMenuListItem>()
+        {
+            mainSetAssault,
+            mainSetDoomsday,
+            mainSetSmuggler,
+            mainSetArenaWar
+        };
+
+        #region Methods
         static void TriggerEvent(string name) // Triggering a music event
         {
             Function.Call(Hash.TRIGGER_MUSIC_EVENT, name);
@@ -81,47 +93,40 @@ namespace Score_Controller
             Function.Call(Hash.STOP_AUDIO_SCENE, name);
         }
 
-        static void PlayScore(string collection, int number, bool isStandard) // Playing a Score Track
-        { 
-            IsScorePlaying = true;
-
-            string name = null;
-
-            switch (isStandard) // #DEBUG
-            {
-                case false:
-                    UI.Notify("Not standard naming.");
-                    break;
-                case true:
-                    UI.Notify("Standard naming.");
-                    break;
-            }
-
-            if (isStandard)
-            {
-                name = "RC_" + collection + "_" + number.ToString();
-            }
-            else
-            {
-                name = collection + "_" + number.ToString();
-            }
-
-            UI.Notify("Current track is: " + name); // #DEBUG
-
-            TriggerEvent(name);
-            // GTA.Native.Function.Call(Hash.PREPARE_MUSIC_EVENT, "GTA_ONLINE_STOP_SCORE"); // Узнать, помогает ли это
-            TriggerEvent("BTL_IDLE"); // Supporting Music Event so the track is playing
-
-            mainScoreIntensity.Index = 0; // Changing selected Score Intensity to default
-        }
-
-        static void PlayScoreByEventName(string name) // Playing a Score Track by its event name
+        static void PlayScore() // Playing a Score Track
         {
             IsScorePlaying = true;
 
-            TriggerEvent(name);
-            // GTA.Native.Function.Call(Hash.PREPARE_MUSIC_EVENT, "GTA_ONLINE_STOP_SCORE"); // Узнать, помогает ли это
-            TriggerEvent("BTL_IDLE"); // Supporting Music Event so the track is playing
+            string name = currentScoreTrack.Title;
+            UI.Notify("Current track is: " + name); // #DEBUG
+
+            TriggerEvent(currentScoreTrack.Event); // Triggering the Track's music event
+
+            string supportingevent = "BTL_IDLE"; // Default supporting Music Event
+
+            switch (currentScoreTrack.Stems) // Determining the supporting Music Event depending on the amount of stems in the current Track
+            {
+                case 3:
+                    supportingevent = Intensities.EventsList3[0];
+                    break;
+                case 4:
+                    supportingevent = Intensities.EventsList4[0];
+                    break;
+                case 5:
+                    supportingevent = Intensities.EventsList5[0];
+                    break;
+                case 6:
+                    supportingevent = Intensities.EventsList6[0];
+                    break;
+                case 7:
+                    supportingevent = Intensities.EventsList7[0];
+                    break;
+                case 8:
+                    supportingevent = Intensities.EventsList8[0];
+                    break;
+            }
+
+            TriggerEvent(supportingevent); // Supporting Music Event so the track is playing
 
             mainScoreIntensity.Index = 0; // Changing selected Score Intensity to default
         }
@@ -135,70 +140,39 @@ namespace Score_Controller
             mainScoreIntensity.Index = 0; // Changing selected Score Intensity to default
         }
 
-        static void SetInstensity(int intensity, int stems) // Controlling the current track's intensity; ЗАПИХНУТЬ СЮДА ЗАВИСИМОСТЬ ОТ КОЛ-ВА СТЕМОВ
+        static void SetInstensity() // Controlling the current track's intensity
         {
-            string low = null;
-            string mid = null;
-            string high = null;
-
-
-            if (stems == 1 || stems == 2)
+            if (currentScoreTrack.Stems == 1 || currentScoreTrack.Stems == 2)
                 return;
 
-            if (stems == 3)
+            ScoreIntensity intensity = Intensities.FindIntensity(mainScoreIntensity.Items[mainScoreIntensity.Index].ToString());
+            
+            if (currentScoreTrack.Stems == 5) // Arena War
             {
+                int index = Intensities.IntensitiesList.IndexOf(intensity);
 
+                TriggerEvent(Intensities.EventsList5[index]);
+            }
+            
+            if (currentScoreTrack.Stems == 6) // Assault, Smuggler
+            {
+                int index = Intensities.IntensitiesList.IndexOf(intensity);
+
+                TriggerEvent(Intensities.EventsList6[index]);
             }
 
-            if (stems == 4)
+            if (currentScoreTrack.Stems == 7) // Woody Jackson's Sapstick
             {
+                int index = Intensities.IntensitiesList.IndexOf(intensity);
 
+                TriggerEvent(Intensities.EventsList7[index]);
             }
 
-            if (stems == 5)
+            if (currentScoreTrack.Stems == 8) // Doomsday
             {
+                int index = Intensities.IntensitiesList.IndexOf(intensity);
 
-            }
-
-            if (stems == 6)
-            {
-                low = "BTL_IDLE";
-                mid = "BTL_MED_INTENSITY";
-                high = "BTL_GUNFIGHT";
-            }
-
-            if (stems == 7) // WDY_SAPSTICK
-            {
-
-            }
-
-            if (stems == 8)
-            {
-                low = "BKR_GUNRUN_DEAL";
-                mid = "BG_SIGHTSEER_MID";
-                high = "DROPZONE_ACTION_HIGH";
-            }
-
-            switch (intensity)
-            {
-                case 0:
-                    TriggerEvent(low); // Low
-                    break;
-                case 1:
-                    TriggerEvent(mid); // Mid
-                    break;
-                case 2:
-                    TriggerEvent(high); // High
-                    break;
-                case 3:
-                    TriggerEvent("AW_ANNOUNCER_FINISHED"); // Stems 1-5
-                    break;
-                case 4:
-                    TriggerEvent("BKR_SAFECRACKER_CRACK"); // Stem 3
-                    break;
-                case 5:
-                    TriggerEvent("CMH_MP_STEALTH"); // Stealth (linear mixing)
-                    break;
+                TriggerEvent(Intensities.EventsList8[index]);
             }
         }
 
@@ -230,9 +204,48 @@ namespace Score_Controller
 
             StopScene("MIC1_RADIO_DISABLE");
         }
+
+        static UIMenuListItem GetCurrentSet() // Determining the currently selected Score Set
+        {
+            UIMenuListItem set = null;
+
+            if (controllerMain.MenuItems[1].Equals(mainSetAssault))
+            {
+                set = mainSetAssault;
+            }
+            else if (controllerMain.MenuItems[1].Equals(mainSetDoomsday))
+            {
+                set = mainSetDoomsday;
+            }
+            else if (controllerMain.MenuItems[1].Equals(mainSetSmuggler))
+            {
+                set = mainSetSmuggler;
+            }
+            else if (controllerMain.MenuItems[1].Equals(mainSetArenaWar))
+            {
+                set = mainSetArenaWar;
+            }
+            else if (controllerMain.MenuItems[1].Equals(mainSetWoodyJackson))
+            {
+                set = mainSetWoodyJackson;
+            }
+            return set;
+        }
+
+        static void GetCurrentTrack() // Determining the currently selected Score Track
+        {
+            currentScoreTrack = Tracks.FindTrack(GetCurrentSet().Items[GetCurrentSet().Index].ToString());
+        }
     #endregion
 
-        void onTick(object sender, EventArgs e)
+        void OnIndexChange(UIMenu sender, int newindex)
+        {
+            if (sender != controllerMain) return;
+           
+            GetCurrentTrack(); // Getting current Score Track every time we move throughout the menu
+        }
+
+        void OnTick(object sender, EventArgs e)
         {
             controllerMenuPool.ProcessMenus();
 
@@ -258,9 +271,14 @@ namespace Score_Controller
             {
                 Game.DisableControlThisFrame(85, GTA.Control.VehicleRadioWheel); // Disabling radio wheel in vehicles
             }
+
+            if (currentScoreTrack != null)
+            {
+                UI.Notify("The current track is: " + currentScoreTrack.Title); // #DEBUG
+            }
         }
 
-        void onKeyDown(object sender, KeyEventArgs e)
+        void OnKeyDown(object sender, KeyEventArgs e)
         {
             if (Game.IsControlPressed(246, GTA.Control.MpTextChatTeam) && Game.Player.CanControlCharacter)
             {
@@ -283,80 +301,56 @@ namespace Score_Controller
                 controllerMain.GoDown();
             }
 
-            if (sender == controllerMain)
+            if (controllerMain.CurrentSelection == 1)
             {
-                string collection = Collections.CollectionsList[mainScoreCollection.Index].Event;
-                
-                if (selectedItem == mainSetAssault) // Determining which Score Track is selected and playing it
-                {
-                    int currentIndex = mainSetAssault.Index + 1;
-                    PlayScore(collection, currentIndex, true);
-                }
+                PlayScore();
+            }
 
-                if (selectedItem == mainSetDoomsday) // Determining which Score Track is selected and playing it
-                {
-                    int currentIndex = mainSetDoomsday.Index + 1;
-                    PlayScore(collection, currentIndex, true);
-                }
-
-                if (selectedItem == mainSetSmuggler) // Determining which Score Track is selected and playing it
-                {
-                    int currentIndex = mainSetSmuggler.Index + 1;
-                    PlayScore(collection, currentIndex, true);
-                }
-
-                if (selectedItem == mainSetArenaWar) // Determining which Score Track is selected and playing it
-                {
-                    int currentIndex = mainSetArenaWar.Index;
-
-                    if (currentIndex == 0) // Playing the exception (Main Theme)
-                    {
-                        PlayScoreByEventName("AW_LOBBY_MUSIC_START_STA");
-                    }
-                    else // Playing normal tracks
-                    {
-                        PlayScore(collection, currentIndex, false);
-                    }
-                }
-
-                if (selectedItem == mainScoreIntensity)
-                {
-                    int stems = Tracks.FindTrack(selectedItem.Text).Stems;
-                    SetInstensity(mainScoreIntensity.Index, stems);
-                }
-
-                currentScoreTrack = Tracks.FindTrack(selectedItem.Text); // Determining the selected track
-
-                UI.Notify("Current collection is: " + collection); // #DEBUG
+            if (selectedItem == mainScoreIntensity)
+            {
+                SetInstensity();
             }
         }
 
         void ListChangeHandler(UIMenu sender, UIMenuListItem list, int index)
         {
-            if (sender != controllerMain || list != mainScoreCollection) return;
+            if (sender != controllerMain) return;
 
-            switch (index) // Setting the needed tracklist based on the selected Score Set
+            if (controllerMain.CurrentSelection == 0)
             {
-                case 0:
-                    controllerMain.RemoveItemAt(1);
-                    controllerMain.AddItemAt(mainSetAssault, 1);
-                    controllerMain.RefreshIndex();
-                    break;
-                case 1:
-                    controllerMain.RemoveItemAt(1);
-                    controllerMain.AddItemAt(mainSetDoomsday, 1);
-                    controllerMain.RefreshIndex();
-                    break;
-                case 2:
-                    controllerMain.RemoveItemAt(1);
-                    controllerMain.AddItemAt(mainSetSmuggler, 1);
-                    controllerMain.RefreshIndex();
-                    break;
-                case 3:
-                    controllerMain.RemoveItemAt(1);
-                    controllerMain.AddItemAt(mainSetArenaWar, 1);
-                    controllerMain.RefreshIndex();
-                    break;
+                switch (index) // Setting the needed tracklist based on the selected Score Set
+                {
+                    case 0:
+                        controllerMain.RemoveItemAt(1);
+                        controllerMain.AddItemAt(mainSetAssault, 1);
+                        controllerMain.RefreshIndex();
+                        break;
+                    case 1:
+                        controllerMain.RemoveItemAt(1);
+                        controllerMain.AddItemAt(mainSetDoomsday, 1);
+                        controllerMain.RefreshIndex();
+                        break;
+                    case 2:
+                        controllerMain.RemoveItemAt(1);
+                        controllerMain.AddItemAt(mainSetSmuggler, 1);
+                        controllerMain.RefreshIndex();
+                        break;
+                    case 3:
+                        controllerMain.RemoveItemAt(1);
+                        controllerMain.AddItemAt(mainSetArenaWar, 1);
+                        controllerMain.RefreshIndex();
+                        break;
+                    case 4:
+                        controllerMain.RemoveItemAt(1);
+                        controllerMain.AddItemAt(mainSetWoodyJackson, 1);
+                        controllerMain.RefreshIndex();
+                        break;
+                }
+            }
+
+            if (controllerMain.CurrentSelection == 1)
+            {
+                GetCurrentTrack();
             }
         }
 

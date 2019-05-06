@@ -51,8 +51,10 @@
   <ItemGroup>
     <Compile Include="Collections.cs" />
     <Compile Include="Controller.cs" />
+    <Compile Include="Intensities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScoreCollection.cs" />
+    <Compile Include="ScoreIntensity.cs" />
     <Compile Include="ScoreTrack.cs" />
     <Compile Include="Text.cs" />
     <Compile Include="Tracks.cs" />

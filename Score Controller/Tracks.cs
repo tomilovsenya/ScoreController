@@ -9,66 +9,80 @@ namespace Score_Controller
 {
     public class Tracks
     {
-        public static List<ScoreTrack> TracksList = new List<ScoreTrack>()
+        public static ScoreTrack Assault_One = new ScoreTrack(Collections.Assault, "dlc_assault_tech_1", "Assault Tech One", "RC_ASSAULT_1", 6);
+        public static ScoreTrack Assault_Two = new ScoreTrack(Collections.Assault, "dlc_assault_tech_2", "Assault Tech Two", "RC_ASSAULT_2", 6);
+        public static ScoreTrack Assault_Three = new ScoreTrack(Collections.Assault, "dlc_assault_tech_3", "Assault Tech Three", "RC_ASSAULT_3", 6);
+        public static ScoreTrack Assault_Four = new ScoreTrack(Collections.Assault, "dlc_assault_tech_4", "Assault Tech Four", "RC_ASSAULT_4", 6);
+
+        public static ScoreTrack Doomsday_One = new ScoreTrack(Collections.Doomsday, "cmh_heist_1", "CMH Heist One", "RC_HEIST2_1", 8);
+        public static ScoreTrack Doomsday_Two = new ScoreTrack(Collections.Doomsday, "cmh_heist_2", "CMH Heist Two", "RC_HEIST2_2", 8);
+
+        public static ScoreTrack Smuggler_INF = new ScoreTrack(Collections.Smuggler, "smuggler_track_inf", "Smuggler Track INF", "RC_SMUGGLER_1", 6);
+        public static ScoreTrack Smuggler_One = new ScoreTrack(Collections.Smuggler, "smuggler_track_s1", "Smuggler Track S1", "RC_SMUGGLER_2", 6);
+
+        public static ScoreTrack ArenaWar_Theme = new ScoreTrack(Collections.ArenaWar, "dlc_awxm2018_theme_5_stems", "Arena War Theme", "AW_LOBBY_MUSIC_START_STA", 5);
+        public static ScoreTrack ArenaWar_One = new ScoreTrack(Collections.ArenaWar, "dlc_aw_track_1", "AW Track One", "MC_AW_MUSIC_1", 5);
+        public static ScoreTrack ArenaWar_Two = new ScoreTrack(Collections.ArenaWar, "dlc_aw_track_2", "AW Track Two", "MC_AW_MUSIC_2", 5);
+
+        public static ScoreTrack Sapstick = new ScoreTrack(Collections.WoodyJackson, "wdy_sapstick", "Sapstick", "MIC2_START", 7);
+
+        public static List<ScoreTrack> TrackList = new List<ScoreTrack>()
         {
-            new ScoreTrack(Collections.CollectionsList[0], "dlc_assault_tech_1", "Assault Tech One", 6),
-            new ScoreTrack(Collections.CollectionsList[0], "dlc_assault_tech_2", "Assault Tech Two", 6),
-            new ScoreTrack(Collections.CollectionsList[0], "dlc_assault_tech_3", "Assault Tech Three", 6),
-            new ScoreTrack(Collections.CollectionsList[0], "dlc_assault_tech_4", "Assault Tech Four", 6),
+            Assault_One,
+            Assault_Two,
+            Assault_Three,
+            Assault_Four,
 
-            new ScoreTrack(Collections.CollectionsList[1], "cmh_heist_1", "CMH Heist One", 8),
-            new ScoreTrack(Collections.CollectionsList[1], "cmh_heist_2", "CMH Heist Two", 8),
+            Doomsday_One,
+            Doomsday_Two,
 
-            new ScoreTrack(Collections.CollectionsList[2], "smuggler_track_inf", "Smuggler Track INF", 6),
-            new ScoreTrack(Collections.CollectionsList[2], "smuggler_track_s1", "Smuggler Track S1", 6),
+            Smuggler_INF,
+            Smuggler_One,
 
-            new ScoreTrack(Collections.CollectionsList[3], "dlc_aw_track_1", "AW Track One", 5),
-            new ScoreTrack(Collections.CollectionsList[3], "dlc_aw_track_2", "AW Track Two", 5)
+            ArenaWar_Theme,
+            ArenaWar_One,
+            ArenaWar_Two,
+
+            Sapstick
         };
 
         public static void AddTracks() // Adding tracks
         {
-            int count = 0; // #DEBUG
-            foreach (ScoreTrack track in TracksList)
+            foreach (ScoreTrack track in TrackList)
             {
-                count++; // #DEBUG
-
-                var collection = new List<object>();
-
-                switch (track.Collection.Title)
+                if (track.Collection == Collections.Assault)
                 {
-                    case "Assault":
-                        collection = tracksAssault;
-                        break;
-                    case "Doomsday":
-                        collection = tracksDoomsday;
-                        break;
-                    case "Smuggler's Run":
-                        collection = tracksSmuggler;
-                        break;
-                    case "Arena War":
-                        collection = tracksArenaWar;
-                        break;
+                    listAssault.Add(track.Title);
                 }
-
-                collection.Add(track.Title);
-
-                UI.Notify("Added " + count + " tracks."); // #DEBUG
+                if (track.Collection == Collections.Doomsday)
+                {
+                    listDoomsday.Add(track.Title);
+                }
+                if (track.Collection == Collections.Smuggler)
+                {
+                    listSmuggler.Add(track.Title);
+                }
+                if (track.Collection == Collections.ArenaWar)
+                {
+                    listArenaWar.Add(track.Title);
+                }
+                if (track.Collection == Collections.WoodyJackson)
+                {
+                    listWoodyJackson.Add(track.Title);
+                }
             }
         }
 
         public static ScoreTrack FindTrack(string name)
         {
-            return TracksList.Find(track => track.Title == name);
+            return TrackList.Find(track => track.Title == name);
         }
 
-        public static List<object> tracksAssault = new List<object>();
-
-        public static List<object> tracksDoomsday = new List<object>();
-
-        public static List<object> tracksSmuggler = new List<object>();
-
-        public static List<object> tracksArenaWar = new List<object>();
+        public static List<object> listAssault = new List<object>();
+        public static List<object> listDoomsday = new List<object>();
+        public static List<object> listSmuggler = new List<object>();
+        public static List<object> listArenaWar = new List<object>();
+        public static List<object> listWoodyJackson = new List<object>();
 
         public static List<object> scoreInts = new List<object>
         {

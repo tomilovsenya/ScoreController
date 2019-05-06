@@ -22,6 +22,7 @@ namespace Score_Controller
         public static string mainPlayDoomsdayDescr = "Select a Score Track from the Doomsday Heist collection to listen to.";
         public static string mainPlaySmugglerDescr = "Select a Score Track from the Smuggler's Run collection to listen to.";
         public static string mainPlayArenaWarDescr = "Select a Score Track from the Arena War collection to listen to.";
+        public static string mainPlayWoodyJacksonDescr = "Select a Score Track from the Woody Jackson's Tracks collection to listen to.";
 
         public static string mainScoreIntensityTitle = "Intensity";
         public static string mainScoreIntensityDescr = "Select from the available intensity modes to control the playing track's phase.";
