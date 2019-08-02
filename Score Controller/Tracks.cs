@@ -27,6 +27,7 @@ namespace Score_Controller
         public static ScoreTrack Sapstick = new ScoreTrack(Collections.WoodyJackson, "wdy_sapstick", "Sapstick", "MIC2_START", 7);
 
         public static ScoreTrack Heist = new ScoreTrack(Collections.ArsenyTomilov, "ts_heist", "Heist", "TS_HEIST_START", 8);
+        public static ScoreTrack BTP = new ScoreTrack(Collections.ArsenyTomilov, "ts_btp", "BTP", "TS_BTP_START", 8);
 
         public static List<ScoreTrack> TrackList = new List<ScoreTrack>()
         {
@@ -47,7 +48,8 @@ namespace Score_Controller
 
             Sapstick,
 
-            Heist
+            Heist,
+            BTP
         };
 
         public static void AddTracks() // Adding tracks; a #NEWCOLLECTION must be added to this list
