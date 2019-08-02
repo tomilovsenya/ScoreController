@@ -1,11 +1,4 @@
-﻿using NativeUI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Score_Controller
+﻿namespace Score_Controller
 {
     public class ScoreCollection
     {
