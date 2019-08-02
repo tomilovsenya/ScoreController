@@ -26,6 +26,8 @@ namespace Score_Controller
 
         public static ScoreTrack Sapstick = new ScoreTrack(Collections.WoodyJackson, "wdy_sapstick", "Sapstick", "MIC2_START", 7);
 
+        public static ScoreTrack Heist = new ScoreTrack(Collections.ArsenyTomilov, "ts_heist", "Heist", "TS_HEIST_START", 8);
+
         public static List<ScoreTrack> TrackList = new List<ScoreTrack>()
         {
             Assault_One,
@@ -43,7 +45,9 @@ namespace Score_Controller
             ArenaWar_One,
             ArenaWar_Two,
 
-            Sapstick
+            Sapstick,
+
+            Heist
         };
 
         public static void AddTracks() // Adding tracks; a #NEWCOLLECTION must be added to this list
@@ -70,6 +74,10 @@ namespace Score_Controller
                 {
                     listWoodyJackson.Add(track.Title);
                 }
+                if (track.Collection == Collections.ArsenyTomilov)
+                {
+                    listArsenyTomilov.Add(track.Title);
+                }
             }
         }
 
@@ -83,6 +91,7 @@ namespace Score_Controller
         public static List<object> listSmuggler = new List<object>();
         public static List<object> listArenaWar = new List<object>();
         public static List<object> listWoodyJackson = new List<object>();
+        public static List<object> listArsenyTomilov = new List<object>();
 
         public static List<object> scoreInts = new List<object>
         {

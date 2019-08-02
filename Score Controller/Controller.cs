@@ -23,6 +23,7 @@ namespace Score_Controller
         private static UIMenuListItem mainSetSmuggler;
         private static UIMenuListItem mainSetArenaWar;
         private static UIMenuListItem mainSetWoodyJackson;
+        private static UIMenuListItem mainSetArsenyTomilov;
 
         private static UIMenuListItem mainScoreIntensity;
         private static UIMenuCheckboxItem mainMuteSound;
@@ -52,6 +53,7 @@ namespace Score_Controller
             mainSetSmuggler = new UIMenuListItem(Text.mainPlayScoreTitle, Tracks.listSmuggler, 0, Text.mainPlaySmugglerDescr);
             mainSetArenaWar = new UIMenuListItem(Text.mainPlayScoreTitle, Tracks.listArenaWar, 0, Text.mainPlayArenaWarDescr);
             mainSetWoodyJackson = new UIMenuListItem(Text.mainPlayScoreTitle, Tracks.listWoodyJackson, 0, Text.mainPlayWoodyJacksonDescr);
+            mainSetArsenyTomilov = new UIMenuListItem(Text.mainPlayScoreTitle, Tracks.listArsenyTomilov, 0, Text.mainPlayArsenyTomilovDescr);
 
             controllerMain.AddItem(mainScoreIntensity = new UIMenuListItem(Text.mainScoreIntensityTitle, Intensities.listIntensities, 0, Text.mainScoreIntensityDescr));
             controllerMain.AddItem(mainMuteSound = new UIMenuCheckboxItem(Text.mainMuteSoundTitle, false, Text.mainMuteSoundDescr));
@@ -233,6 +235,10 @@ namespace Score_Controller
             {
                 set = mainSetWoodyJackson;
             }
+            else if (controllerMain.MenuItems[1].Equals(mainSetArsenyTomilov))
+            {
+                set = mainSetArsenyTomilov;
+            }
             return set;
         }
 
@@ -352,6 +358,11 @@ namespace Score_Controller
                     case 4:
                         controllerMain.RemoveItemAt(1);
                         controllerMain.AddItemAt(mainSetWoodyJackson, 1);
+                        controllerMain.RefreshIndex();
+                        break;
+                    case 5:
+                        controllerMain.RemoveItemAt(1);
+                        controllerMain.AddItemAt(mainSetArsenyTomilov, 1);
                         controllerMain.RefreshIndex();
                         break;
                 }
