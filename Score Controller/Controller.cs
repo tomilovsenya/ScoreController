@@ -8,6 +8,7 @@ using GTA.Native;
 using GTA.Math;
 using NativeUI;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace Score_Controller
 {
@@ -60,7 +61,10 @@ namespace Score_Controller
             controllerMain.AddItem(mainMuteRadio = new UIMenuCheckboxItem(Text.mainMuteRadioTitle, false, Text.mainMuteRadioDescr));
 
             controllerMain.AddItem(mainCustomEvent = new UIMenuItem(Text.mainCustomEventTitle, Text.mainCustomEventDescr));
-            
+
+            var bannerScoreController = new Sprite("shopui_title_scorecontroller", "shopui_title_scorecontroller", new Point(0, 0), new Size(0, 0)); // Creating the banner
+            controllerMain.SetBannerType(bannerScoreController); // Adding the banner
+
             var buttonStopScore = new InstructionalButton(GTA.Control.Jump, "Stop Score"); // Creating the Stop Score button
             controllerMain.AddInstructionalButton(buttonStopScore); // Adding the Stop Score button
 
@@ -282,10 +286,10 @@ namespace Score_Controller
                 Game.DisableControlThisFrame(85, GTA.Control.VehicleRadioWheel); // Disabling radio wheel in vehicles
             }
 
-            if (currentScoreTrack != null)
-            {
-                UI.Notify("The current track is: " + currentScoreTrack.Title); // #DEBUG
-            }
+            // if (currentScoreTrack != null)
+            // {
+            //     UI.Notify("The current track is: " + currentScoreTrack.Title); // #DEBUG
+            // }
         }
 
         void OnKeyDown(object sender, KeyEventArgs e)
