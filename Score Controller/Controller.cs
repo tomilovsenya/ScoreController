@@ -28,6 +28,8 @@ namespace Score_Controller
         private static UIMenuCheckboxItem mainMuteSound;
         private static UIMenuCheckboxItem mainMuteRadio;
 
+        private static UIMenuItem mainCustomEvent;
+
         private static bool IsScorePlaying = false; // The field to tell if a Track is playing
         private static bool IsSoundMuted = false; // The field to tell if sound is muted; ВОЗМОЖНО, НЕ ПРИГОДИТСЯ
         private static bool IsRadioMuted = false; // The field to tell if radio is muted
@@ -54,6 +56,8 @@ namespace Score_Controller
             controllerMain.AddItem(mainScoreIntensity = new UIMenuListItem(Text.mainScoreIntensityTitle, Intensities.listIntensities, 0, Text.mainScoreIntensityDescr));
             controllerMain.AddItem(mainMuteSound = new UIMenuCheckboxItem(Text.mainMuteSoundTitle, false, Text.mainMuteSoundDescr));
             controllerMain.AddItem(mainMuteRadio = new UIMenuCheckboxItem(Text.mainMuteRadioTitle, false, Text.mainMuteRadioDescr));
+
+            controllerMain.AddItem(mainCustomEvent = new UIMenuItem(Text.mainCustomEventTitle, Text.mainCustomEventDescr));
             
             var buttonStopScore = new InstructionalButton(GTA.Control.Jump, "Stop Score"); // Creating the Stop Score button
             controllerMain.AddInstructionalButton(buttonStopScore); // Adding the Stop Score button
@@ -309,6 +313,11 @@ namespace Score_Controller
             if (selectedItem == mainScoreIntensity)
             {
                 SetInstensity();
+            }
+
+            if (selectedItem == mainCustomEvent)
+            {
+                TriggerEvent(OnscreenKeyboard.GetInput());
             }
         }
 

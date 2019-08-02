@@ -32,6 +32,9 @@ namespace Score_Controller
 
         public static string mainMuteRadioTitle = "Mute Radio";
         public static string mainMuteRadioDescr = "Mute radio.";
+
+        public static string mainCustomEventTitle = "Trigger Music Event";
+        public static string mainCustomEventDescr = "Trigger custom Music Event.";
        
         void Main()
         {
