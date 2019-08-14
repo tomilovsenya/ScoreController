@@ -14,25 +14,23 @@ namespace Score_Controller
         private static UIMenu controllerMain;
 
         private static UIMenuListItem mainScoreCollection;
-
-        private static UIMenuListItem mainSetAssault;
-        private static UIMenuListItem mainSetDoomsday;
-        private static UIMenuListItem mainSetSmuggler;
-        private static UIMenuListItem mainSetArenaWar;
-        private static UIMenuListItem mainSetWoodyJackson;
-        private static UIMenuListItem mainSetArsenyTomilov;
-
+        private static UIMenuListItem mainScoreTrack;
         private static UIMenuListItem mainScoreIntensity;
         private static UIMenuCheckboxItem mainMuteSound;
         private static UIMenuCheckboxItem mainMuteRadio;
 
         private static UIMenuItem mainCustomEvent;
+        private static UIMenuItem mainCustomScene;
 
         private static bool IsScorePlaying = false; // The field to tell if a Track is playing
         private static bool IsSoundMuted = false; // The field to tell if sound is muted; ВОЗМОЖНО, НЕ ПРИГОДИТСЯ
         private static bool IsRadioMuted = false; // The field to tell if radio is muted
 
         private static ScoreTrack currentScoreTrack = null; // Currently selected Score Track
+        private static string currentAudioScene = null; // Currently active Audio Scene
+
+        private static InstructionalButton buttonStopScore = new InstructionalButton(GTA.Control.Jump, "Stop Score"); // Creating the Stop Score button
+        private static InstructionalButton buttonStopScene = new InstructionalButton(GTA.Control.SelectWeapon, "Stop Scene"); // Creating the Stop Scene button
 
         public Controller()
         {
@@ -44,24 +42,17 @@ namespace Score_Controller
             controllerMain = new UIMenu(Text.controllerTitle, Text.controllerSubtitle);            
 
             controllerMain.AddItem(mainScoreCollection = new UIMenuListItem(Text.mainScoreCollectionTitle, Collections.scoreCollections, 0, Text.mainScoreCollectionDescr));
-
-            controllerMain.AddItem(mainSetAssault = new UIMenuListItem(Text.mainPlayScoreTitle, Tracks.listAssault, 0, Text.mainPlayAssaultDescr));
-            mainSetDoomsday = new UIMenuListItem(Text.mainPlayScoreTitle, Tracks.listDoomsday, 0, Text.mainPlayDoomsdayDescr);
-            mainSetSmuggler = new UIMenuListItem(Text.mainPlayScoreTitle, Tracks.listSmuggler, 0, Text.mainPlaySmugglerDescr);
-            mainSetArenaWar = new UIMenuListItem(Text.mainPlayScoreTitle, Tracks.listArenaWar, 0, Text.mainPlayArenaWarDescr);
-            mainSetWoodyJackson = new UIMenuListItem(Text.mainPlayScoreTitle, Tracks.listWoodyJackson, 0, Text.mainPlayWoodyJacksonDescr);
-            mainSetArsenyTomilov = new UIMenuListItem(Text.mainPlayScoreTitle, Tracks.listArsenyTomilov, 0, Text.mainPlayArsenyTomilovDescr);
-
+            controllerMain.AddItem(mainScoreTrack = new UIMenuListItem(Text.mainScoreTrackTitle, Tracks.listAssault, 0, Text.mainScoreTrackDescr));
             controllerMain.AddItem(mainScoreIntensity = new UIMenuListItem(Text.mainScoreIntensityTitle, Intensities.listIntensities, 0, Text.mainScoreIntensityDescr));
             controllerMain.AddItem(mainMuteSound = new UIMenuCheckboxItem(Text.mainMuteSoundTitle, false, Text.mainMuteSoundDescr));
             controllerMain.AddItem(mainMuteRadio = new UIMenuCheckboxItem(Text.mainMuteRadioTitle, false, Text.mainMuteRadioDescr));
 
             controllerMain.AddItem(mainCustomEvent = new UIMenuItem(Text.mainCustomEventTitle, Text.mainCustomEventDescr));
+            controllerMain.AddItem(mainCustomScene = new UIMenuItem(Text.mainCustomSceneTitle, Text.mainCustomSceneDescr));
 
             var bannerScoreController = new Sprite("shopui_title_scorecontroller", "shopui_title_scorecontroller", new Point(0, 0), new Size(0, 0)); // Creating the banner
             controllerMain.SetBannerType(bannerScoreController); // Adding the banner
 
-            var buttonStopScore = new InstructionalButton(GTA.Control.Jump, "Stop Score"); // Creating the Stop Score button
             controllerMain.AddInstructionalButton(buttonStopScore); // Adding the Stop Score button
 
             controllerMenuPool.Add(controllerMain);
@@ -75,14 +66,6 @@ namespace Score_Controller
             controllerMain.RefreshIndex();
         }
 
-        public List<UIMenuListItem> CollectionLists = new List<UIMenuListItem>()
-        {
-            mainSetAssault,
-            mainSetDoomsday,
-            mainSetSmuggler,
-            mainSetArenaWar
-        };
-
         #region Methods
         static void TriggerEvent(string name) // Triggering a music event
         {
@@ -92,11 +75,13 @@ namespace Score_Controller
         static void StartScene(string name) // Starting an audio scene
         {
             Function.Call(Hash.START_AUDIO_SCENE, name);
+            currentAudioScene = name;
         }
 
         static void StopScene(string name) // Stopping an audio scene
         {
             Function.Call(Hash.STOP_AUDIO_SCENE, name);
+            currentAudioScene = null;
         }
 
         static void PlayScore() // Playing a Score Track
@@ -211,40 +196,15 @@ namespace Score_Controller
             StopScene("MIC1_RADIO_DISABLE");
         }
 
-        static UIMenuListItem GetCurrentSet() // Determining the currently selected Score Set; a #NEWCOLLECTION must be added to this list
-        {
-            UIMenuListItem set = null;
-
-            if (controllerMain.MenuItems[1].Equals(mainSetAssault))
-            {
-                set = mainSetAssault;
-            }
-            else if (controllerMain.MenuItems[1].Equals(mainSetDoomsday))
-            {
-                set = mainSetDoomsday;
-            }
-            else if (controllerMain.MenuItems[1].Equals(mainSetSmuggler))
-            {
-                set = mainSetSmuggler;
-            }
-            else if (controllerMain.MenuItems[1].Equals(mainSetArenaWar))
-            {
-                set = mainSetArenaWar;
-            }
-            else if (controllerMain.MenuItems[1].Equals(mainSetWoodyJackson))
-            {
-                set = mainSetWoodyJackson;
-            }
-            else if (controllerMain.MenuItems[1].Equals(mainSetArsenyTomilov))
-            {
-                set = mainSetArsenyTomilov;
-            }
-            return set;
-        }
-
         static void GetCurrentTrack() // Determining the currently selected Score Track
         {
-            currentScoreTrack = Tracks.FindTrack(GetCurrentSet().Items[GetCurrentSet().Index].ToString());
+            currentScoreTrack = Tracks.FindTrack(mainScoreTrack.Items[mainScoreTrack.Index].ToString());
+        }
+
+        static bool IsHelpMessageBeingDisplayed() // Checking if a help message is being displayed
+        {
+            bool isDisplayed = Function.Call<bool>(Hash.IS_HELP_MESSAGE_BEING_DISPLAYED);
+            return isDisplayed;
         }
     #endregion
 
@@ -253,6 +213,15 @@ namespace Score_Controller
             if (sender != controllerMain) return;
            
             GetCurrentTrack(); // Getting current Score Track every time we move throughout the menu
+
+            if (newindex == 6)
+            {
+                controllerMain.AddInstructionalButton(buttonStopScene); // Adding the Stop Scene button
+            }
+            else
+            {
+                controllerMain.RemoveInstructionalButton(buttonStopScene); // Removing the Stop Scene button
+            }
         }
 
         void OnTick(object sender, EventArgs e)
@@ -262,6 +231,16 @@ namespace Score_Controller
             if (controllerMain.Visible)
             {
                 Game.DisableControlThisFrame(22, GTA.Control.Jump); // Disallowing jumping while in the menu
+
+                if (IsHelpMessageBeingDisplayed())
+                {
+                    controllerMain.Visible = false;
+                }
+            }
+
+            if (!controllerMain.Visible)
+            {
+                controllerMain.RemoveInstructionalButton(buttonStopScene); // Removing the Stop Scene button WORKAROUND BUGFIX
             }
 
             if (IsScorePlaying) // Disabling set/track selection while a Track is playing
@@ -290,28 +269,49 @@ namespace Score_Controller
 
         void OnKeyDown(object sender, KeyEventArgs e)
         {
-            if (Game.IsControlPressed(246, GTA.Control.MpTextChatTeam) && Game.Player.CanControlCharacter)
+            if (Game.IsControlPressed(246, GTA.Control.MpTextChatTeam) && Game.Player.CanControlCharacter && !IsHelpMessageBeingDisplayed())
             {
                 controllerMain.RefreshIndex();
                 controllerMain.Visible = !controllerMain.Visible; // Showing/hiding the menu if Y (by default) is pressed
+
+                switch (controllerMain.Visible)
+                {
+                    case true:
+                        Function.Call(Hash.PLAY_SOUND_FRONTEND, -1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", 1); // Playing sound on menu open
+                        break;
+
+                    case false:
+                        Function.Call(Hash.PLAY_SOUND_FRONTEND, -1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", 1); // Playing Select sound on menu close as in the original Interaction Menu
+                        Function.Call(Hash.PLAY_SOUND_FRONTEND, -1, "BACK", "HUD_FRONTEND_DEFAULT_SOUNDSET", 1); // Playing sound on menu close
+                        break;
+                }
             }
 
             if (controllerMain.Visible && Game.IsControlPressed(22, GTA.Control.Jump) && IsScorePlaying)
             {
-                UI.Notify("Score stopped."); // #DEBUG
+                // UI.Notify("Score stopped."); // #DEBUG
                 StopScore(); // Stopping the currently playing Score Track
+            }
+
+            if (controllerMain.Visible && Game.IsControlPressed(37, GTA.Control.SelectWeapon) && mainCustomScene.Selected && currentAudioScene != null)
+            {
+                // UI.Notify("Scene stopped: " + currentAudioScene); // #DEBUG
+                StopScene(currentAudioScene); // Stopping the currently playing Audio Scene
             }
         }
 
         void OnItemSelect(UIMenu sender, UIMenuItem selectedItem, int index)
         {
+            bool hasWentDown = false; // WORKAROUND BUGFIX
+
             if (selectedItem == mainScoreCollection) // Fancy thing to disallow selecting the Set
             {
+                hasWentDown = true;
                 mainScoreCollection.Selected = false;
                 controllerMain.GoDown();
             }
 
-            if (controllerMain.CurrentSelection == 1)
+            if (controllerMain.CurrentSelection == 1 && !hasWentDown)
             {
                 PlayScore();
             }
@@ -325,6 +325,11 @@ namespace Score_Controller
             {
                 TriggerEvent(OnscreenKeyboard.GetInput());
             }
+
+            if (selectedItem == mainCustomScene)
+            {
+                StartScene(OnscreenKeyboard.GetInput());
+            }
         }
 
         void ListChangeHandler(UIMenu sender, UIMenuListItem list, int index)
@@ -333,37 +338,25 @@ namespace Score_Controller
 
             if (controllerMain.CurrentSelection == 0)
             {
-                switch (index) // Setting the needed tracklist based on the selected Score Set; if there's a #NEWCOLLECTION, this list needs to be changed
+                switch (index)
                 {
                     case 0:
-                        controllerMain.RemoveItemAt(1);
-                        controllerMain.AddItemAt(mainSetAssault, 1);
-                        controllerMain.RefreshIndex();
+                        mainScoreTrack.Items = Tracks.listAssault;
                         break;
                     case 1:
-                        controllerMain.RemoveItemAt(1);
-                        controllerMain.AddItemAt(mainSetDoomsday, 1);
-                        controllerMain.RefreshIndex();
+                        mainScoreTrack.Items = Tracks.listDoomsday;
                         break;
                     case 2:
-                        controllerMain.RemoveItemAt(1);
-                        controllerMain.AddItemAt(mainSetSmuggler, 1);
-                        controllerMain.RefreshIndex();
+                        mainScoreTrack.Items = Tracks.listSmuggler;
                         break;
                     case 3:
-                        controllerMain.RemoveItemAt(1);
-                        controllerMain.AddItemAt(mainSetArenaWar, 1);
-                        controllerMain.RefreshIndex();
+                        mainScoreTrack.Items = Tracks.listArenaWar;
                         break;
                     case 4:
-                        controllerMain.RemoveItemAt(1);
-                        controllerMain.AddItemAt(mainSetWoodyJackson, 1);
-                        controllerMain.RefreshIndex();
+                        mainScoreTrack.Items = Tracks.listWoodyJackson;
                         break;
                     case 5:
-                        controllerMain.RemoveItemAt(1);
-                        controllerMain.AddItemAt(mainSetArsenyTomilov, 1);
-                        controllerMain.RefreshIndex();
+                        mainScoreTrack.Items = Tracks.listArsenyTomilov;
                         break;
                 }
             }
