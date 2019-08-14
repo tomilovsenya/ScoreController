@@ -8,7 +8,8 @@ namespace Score_Controller
 
         public static string GetInput()
         {
-            string input = Game.GetUserInput(defaulttext, 30);
+            WindowTitle SCUI_CUSTOM_MUSIC_EVENT = new WindowTitle();
+            string input = Game.GetUserInput(SCUI_CUSTOM_MUSIC_EVENT, defaulttext, 45);
             defaulttext = input;
             return input;
         }
