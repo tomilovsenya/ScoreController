@@ -26,12 +26,14 @@ namespace Score_Controller
         private static bool IsRadioMuted = false; // The field to tell if radio is muted
 
         private static ScoreTrack currentScoreTrack = null; // Currently selected Score Track
+        private static string currentMusicEvent = null; // Currently active Music Event
         private static string currentAudioScene = null; // Currently active Audio Scene
 
         private static Sprite bannerScoreController = new Sprite("shopui_title_scorecontroller", "shopui_title_scorecontroller", new Point(0, 0), new Size(0, 0)); // Creating the banner
 
         private static InstructionalButton buttonStopScore = new InstructionalButton(GTA.Control.Jump, "Stop Score"); // Creating the Stop Score button
         private static InstructionalButton buttonStopScene = new InstructionalButton(GTA.Control.SelectWeapon, "Stop Scene"); // Creating the Stop Scene button
+        private static InstructionalButton buttonCancelEvent = new InstructionalButton(GTA.Control.SelectWeapon, "Cancel Event"); // Creating the Cancel Event button
 
         public Controller()
         {
@@ -70,6 +72,13 @@ namespace Score_Controller
         static void TriggerEvent(string name) // Triggering a music event
         {
             Function.Call(Hash.TRIGGER_MUSIC_EVENT, name);
+            currentMusicEvent = name;
+        }
+
+        static void StopEvent(string name) // Cancelling a music event
+        {
+            Function.Call(Hash.CANCEL_MUSIC_EVENT, name);
+            currentMusicEvent = null;
         }
 
         static void StartScene(string name) // Starting an audio scene
@@ -117,7 +126,7 @@ namespace Score_Controller
                     break;
             }
 
-            TriggerEvent(supportingevent); // Supporting Music Event so the track is playing
+            // TriggerEvent(supportingevent); // Supporting Music Event so the track is playing
 
             mainScoreIntensity.Index = 0; // Changing selected Score Intensity to default
         }
@@ -239,10 +248,10 @@ namespace Score_Controller
         {
             bool isAvailable;
 
-            bool isControlPressed = Game.IsControlPressed(22, GTA.Control.Jump);
             bool isControllerVisible = controllerMain.Visible;
 
-            if (isControlPressed && isControllerVisible && IsScorePlaying)
+            //if (isControlPressed && isControllerVisible && IsScorePlaying)
+            if (isControllerVisible)
             {
                 isAvailable = true;
             }
@@ -258,11 +267,29 @@ namespace Score_Controller
         {
             bool isAvailable;
 
-            bool isControlPressed = Game.IsControlPressed(37, GTA.Control.SelectWeapon);
             bool isControllerVisible = controllerMain.Visible;
             bool isCustomSceneSelected = mainCustomScene.Selected;
 
-            if (isControlPressed && isControllerVisible && isCustomSceneSelected && currentAudioScene != null)
+            if (isControllerVisible && isCustomSceneSelected && currentAudioScene != null)
+            {
+                isAvailable = true;
+            }
+            else
+            {
+                isAvailable = false;
+            }
+
+            return isAvailable;
+        }
+
+        static bool IsCancelEventAvailable() // Checking if everything is good for the Music Event to be cancelled
+        {
+            bool isAvailable;
+
+            bool isControllerVisible = controllerMain.Visible;
+            bool isCustomSceneSelected = mainCustomEvent.Selected;
+
+            if (isControllerVisible && isCustomSceneSelected && currentMusicEvent != null)
             {
                 isAvailable = true;
             }
@@ -288,6 +315,15 @@ namespace Score_Controller
             else
             {
                 controllerMain.RemoveInstructionalButton(buttonStopScene); // Removing the Stop Scene button
+            }
+
+            if (newindex == 5)
+            {
+                controllerMain.AddInstructionalButton(buttonCancelEvent); // Adding the Cancel Event button
+            }
+            else
+            {
+                controllerMain.RemoveInstructionalButton(buttonCancelEvent); // Removing the Cancel Event button
             }
         }
 
@@ -355,16 +391,22 @@ namespace Score_Controller
                 }
             }
 
-            if (IsStopScoreAvailable())
+            if (IsStopScoreAvailable() && Game.IsControlPressed(22, GTA.Control.Jump))
             {
                 // UI.Notify("Score stopped."); // #DEBUG
                 StopScore(); // Stopping the currently playing Score Track
             }
 
-            if (IsStopSceneAvailable())
+            if (IsStopSceneAvailable() && Game.IsControlPressed(37, GTA.Control.SelectWeapon))
             {
                 // UI.Notify("Scene stopped: " + currentAudioScene); // #DEBUG
                 StopScene(currentAudioScene); // Stopping the currently playing Audio Scene
+            }
+
+            if (IsCancelEventAvailable() && Game.IsControlPressed(37, GTA.Control.SelectWeapon))
+            {
+                UI.Notify("Event stopped: " + currentMusicEvent); // #DEBUG
+                StopEvent(currentMusicEvent); // Cancelling the currently active Music Event
             }
         }
 
@@ -427,6 +469,8 @@ namespace Score_Controller
                         mainScoreTrack.Items = Tracks.listArsenyTomilov;
                         break;
                 }
+
+                mainScoreTrack.Index = 0;
             }
 
             if (controllerMain.CurrentSelection == 1)
