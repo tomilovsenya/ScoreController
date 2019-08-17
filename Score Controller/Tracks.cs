@@ -11,13 +11,28 @@ namespace Score_Controller
 
         public static ScoreTrack Doomsday_One = new ScoreTrack(Collections.Doomsday, "cmh_heist_1", "CMH Heist One", "RC_HEIST2_1", 8);
         public static ScoreTrack Doomsday_Two = new ScoreTrack(Collections.Doomsday, "cmh_heist_2", "CMH Heist Two", "RC_HEIST2_2", 8);
+        public static ScoreTrack Doomsday_Three = new ScoreTrack(Collections.Doomsday, "cmh_heist_3", "CMH Heist Three", "RC_HEIST2_3", 8);
+
+        public static ScoreTrack Doomsday_Tech_One = new ScoreTrack(Collections.Doomsday, "cmh_heist_4", "CMH Tech One", "RC_HEIST2_4", 6);
+        public static ScoreTrack Doomsday_Tech_Two = new ScoreTrack(Collections.Doomsday, "cmh_heist_5", "CMH Tech Two", "RC_HEIST2_5", 6);
+        public static ScoreTrack Doomsday_Tech_Three = new ScoreTrack(Collections.Doomsday, "cmh_heist_6", "CMH Tech Three", "RC_HEIST2_6", 6);
+        public static ScoreTrack Doomsday_Tech_Four = new ScoreTrack(Collections.Doomsday, "cmh_heist_7", "CMH Tech Four", "RC_HEIST2_7", 6);
 
         public static ScoreTrack Smuggler_INF = new ScoreTrack(Collections.Smuggler, "smuggler_track_inf", "Smuggler Track INF", "RC_SMUGGLER_1", 6);
         public static ScoreTrack Smuggler_One = new ScoreTrack(Collections.Smuggler, "smuggler_track_s1", "Smuggler Track S1", "RC_SMUGGLER_2", 6);
+        public static ScoreTrack Smuggler_Two = new ScoreTrack(Collections.Smuggler, "smuggler_track_s2", "Smuggler Track S2", "RC_SMUGGLER_3", 6);
+        public static ScoreTrack Smuggler_Three = new ScoreTrack(Collections.Smuggler, "smuggler_track_s3", "Smuggler Track S3", "RC_SMUGGLER_4", 6);
+        public static ScoreTrack Smuggler_Four = new ScoreTrack(Collections.Smuggler, "smuggler_track_s4", "Smuggler Track S4", "RC_SMUGGLER_5", 6);
 
         public static ScoreTrack ArenaWar_Theme = new ScoreTrack(Collections.ArenaWar, "dlc_awxm2018_theme_5_stems", "Arena War Theme", "AW_LOBBY_MUSIC_START_STA", 5);
         public static ScoreTrack ArenaWar_One = new ScoreTrack(Collections.ArenaWar, "dlc_aw_track_1", "AW Track One", "MC_AW_MUSIC_1", 5);
         public static ScoreTrack ArenaWar_Two = new ScoreTrack(Collections.ArenaWar, "dlc_aw_track_2", "AW Track Two", "MC_AW_MUSIC_2", 5);
+        public static ScoreTrack ArenaWar_Three = new ScoreTrack(Collections.ArenaWar, "dlc_aw_track_3", "AW Track Three", "MC_AW_MUSIC_3", 5);
+        public static ScoreTrack ArenaWar_Four = new ScoreTrack(Collections.ArenaWar, "dlc_aw_track_4", "AW Track Four", "MC_AW_MUSIC_4", 5);
+        public static ScoreTrack ArenaWar_Five = new ScoreTrack(Collections.ArenaWar, "dlc_aw_track_5", "AW Track Five", "MC_AW_MUSIC_5", 5);
+        public static ScoreTrack ArenaWar_Six = new ScoreTrack(Collections.ArenaWar, "dlc_aw_track_6", "AW Track Six", "MC_AW_MUSIC_6", 5);
+        public static ScoreTrack ArenaWar_Seven = new ScoreTrack(Collections.ArenaWar, "dlc_aw_track_7", "AW Track Seven", "MC_AW_MUSIC_7", 5);
+        public static ScoreTrack ArenaWar_Eight = new ScoreTrack(Collections.ArenaWar, "dlc_aw_track_8", "AW Track Eight", "MC_AW_MUSIC_8", 5);
 
         public static ScoreTrack Sapstick = new ScoreTrack(Collections.WoodyJackson, "wdy_sapstick", "Sapstick", "MIC2_START", 7);
 
@@ -33,13 +48,28 @@ namespace Score_Controller
 
             Doomsday_One,
             Doomsday_Two,
+            Doomsday_Three,
+
+            Doomsday_Tech_One,
+            Doomsday_Tech_Two,
+            Doomsday_Tech_Three,
+            Doomsday_Tech_Four,
 
             Smuggler_INF,
             Smuggler_One,
+            Smuggler_Two,
+            Smuggler_Three,
+            Smuggler_Four,
 
             ArenaWar_Theme,
             ArenaWar_One,
             ArenaWar_Two,
+            ArenaWar_Three,
+            ArenaWar_Four,
+            ArenaWar_Five,
+            ArenaWar_Six,
+            ArenaWar_Seven,
+            ArenaWar_Eight,
 
             Sapstick,
 
