@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using GTA;
 using GTA.Native;
 using NativeUI;
@@ -29,6 +28,8 @@ namespace Score_Controller
         private static ScoreTrack currentScoreTrack = null; // Currently selected Score Track
         private static string currentAudioScene = null; // Currently active Audio Scene
 
+        private static Sprite bannerScoreController = new Sprite("shopui_title_scorecontroller", "shopui_title_scorecontroller", new Point(0, 0), new Size(0, 0)); // Creating the banner
+
         private static InstructionalButton buttonStopScore = new InstructionalButton(GTA.Control.Jump, "Stop Score"); // Creating the Stop Score button
         private static InstructionalButton buttonStopScene = new InstructionalButton(GTA.Control.SelectWeapon, "Stop Scene"); // Creating the Stop Scene button
 
@@ -50,7 +51,6 @@ namespace Score_Controller
             controllerMain.AddItem(mainCustomEvent = new UIMenuItem(Text.mainCustomEventTitle, Text.mainCustomEventDescr));
             controllerMain.AddItem(mainCustomScene = new UIMenuItem(Text.mainCustomSceneTitle, Text.mainCustomSceneDescr));
 
-            var bannerScoreController = new Sprite("shopui_title_scorecontroller", "shopui_title_scorecontroller", new Point(0, 0), new Size(0, 0)); // Creating the banner
             controllerMain.SetBannerType(bannerScoreController); // Adding the banner
 
             controllerMain.AddInstructionalButton(buttonStopScore); // Adding the Stop Score button
@@ -206,6 +206,73 @@ namespace Score_Controller
             bool isDisplayed = Function.Call<bool>(Hash.IS_HELP_MESSAGE_BEING_DISPLAYED);
             return isDisplayed;
         }
+
+        static bool IsPhoneActive() // Checking if the mobile phone is active
+        {
+            int id = Function.Call<int>(Hash.PLAYER_PED_ID);
+            bool isActive = Function.Call<bool>(Hash.IS_PED_RUNNING_MOBILE_PHONE_TASK, id);
+            return isActive;
+        }
+
+        static bool IsMenuAvailable() // Checking if everything is good for the menu to be open
+        {
+            bool isAvailable;
+
+            bool isControlPressed = Game.IsControlPressed(246, GTA.Control.MpTextChatTeam);
+            bool isPlayerControllable = Game.Player.CanControlCharacter;
+            bool isHelpMessageNotDisplayed = !IsHelpMessageBeingDisplayed();
+            bool isPhoneNotActive = !IsPhoneActive();
+
+            if (isControlPressed && isPlayerControllable && isHelpMessageNotDisplayed && isPhoneNotActive)
+            {
+                isAvailable = true;
+            }
+            else
+            {
+                isAvailable = false;
+            }
+
+            return isAvailable;
+        }
+
+        static bool IsStopScoreAvailable() // Checking if everything is good for the Score to be stopped
+        {
+            bool isAvailable;
+
+            bool isControlPressed = Game.IsControlPressed(22, GTA.Control.Jump);
+            bool isControllerVisible = controllerMain.Visible;
+
+            if (isControlPressed && isControllerVisible && IsScorePlaying)
+            {
+                isAvailable = true;
+            }
+            else
+            {
+                isAvailable = false;
+            }
+
+            return isAvailable;
+        }
+
+        static bool IsStopSceneAvailable() // Checking if everything is good for the Scene to be stopped
+        {
+            bool isAvailable;
+
+            bool isControlPressed = Game.IsControlPressed(37, GTA.Control.SelectWeapon);
+            bool isControllerVisible = controllerMain.Visible;
+            bool isCustomSceneSelected = mainCustomScene.Selected;
+
+            if (isControlPressed && isControllerVisible && isCustomSceneSelected && currentAudioScene != null)
+            {
+                isAvailable = true;
+            }
+            else
+            {
+                isAvailable = false;
+            }
+
+            return isAvailable;
+        }
     #endregion
 
         void OnIndexChange(UIMenu sender, int newindex)
@@ -269,7 +336,7 @@ namespace Score_Controller
 
         void OnKeyDown(object sender, KeyEventArgs e)
         {
-            if (Game.IsControlPressed(246, GTA.Control.MpTextChatTeam) && Game.Player.CanControlCharacter && !IsHelpMessageBeingDisplayed())
+            if (IsMenuAvailable())
             {
                 controllerMain.RefreshIndex();
                 controllerMain.Visible = !controllerMain.Visible; // Showing/hiding the menu if Y (by default) is pressed
@@ -287,13 +354,13 @@ namespace Score_Controller
                 }
             }
 
-            if (controllerMain.Visible && Game.IsControlPressed(22, GTA.Control.Jump) && IsScorePlaying)
+            if (IsStopScoreAvailable())
             {
                 // UI.Notify("Score stopped."); // #DEBUG
                 StopScore(); // Stopping the currently playing Score Track
             }
 
-            if (controllerMain.Visible && Game.IsControlPressed(37, GTA.Control.SelectWeapon) && mainCustomScene.Selected && currentAudioScene != null)
+            if (IsStopSceneAvailable())
             {
                 // UI.Notify("Scene stopped: " + currentAudioScene); // #DEBUG
                 StopScene(currentAudioScene); // Stopping the currently playing Audio Scene
@@ -370,18 +437,15 @@ namespace Score_Controller
         void OnCheckboxChange(UIMenu sender, UIMenuCheckboxItem checkbox, bool Checked)
         {
             if (sender != controllerMain) return;
-            //if (sender != controllerMain) return;
 
             if (checkbox == mainMuteSound)
             {
                 switch (Checked)
                 {
                     case true:
-                        UI.Notify("Sound muted"); // #DEBUG
                         MuteSound();
                         break;
                     case false:
-                        UI.Notify("Sound unmuted"); // #DEBUG
                         UnmuteSound();
                         break;
                 }
@@ -392,11 +456,9 @@ namespace Score_Controller
                 switch (Checked)
                 {
                     case true:
-                        UI.Notify("Radio muted"); // #DEBUG
                         MuteRadio();
                         break;
                     case false:
-                        UI.Notify("Radio unmuted"); // #DEBUG
                         UnmuteRadio();
                         break;
                 }
