@@ -298,6 +298,7 @@ namespace Score_Controller
             if (controllerMain.Visible)
             {
                 Game.DisableControlThisFrame(22, GTA.Control.Jump); // Disallowing jumping while in the menu
+                Game.DisableControlThisFrame(76, GTA.Control.VehicleHandbrake); // Disallowing handbraking while in the menu
 
                 if (IsHelpMessageBeingDisplayed())
                 {
