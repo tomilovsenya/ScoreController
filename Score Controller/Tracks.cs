@@ -4,6 +4,18 @@ namespace Score_Controller
 {
     public class Tracks
     {
+        public static ScoreTrack Lowriders_FJ10 = new ScoreTrack(Collections.Lowriders, "lowrider_fj10", "Lowrider Funk Jam 10", "RC_LOWRIDER_1", 8);
+        public static ScoreTrack Lowriders_FJ11 = new ScoreTrack(Collections.Lowriders, "lowrider_fj11", "Lowrider Funk Jam 11", "RC_LOWRIDER_2", 8);
+        public static ScoreTrack Lowriders_FJ17 = new ScoreTrack(Collections.Lowriders, "lowrider_fj17", "Lowrider Funk Jam 17", "RC_LOWRIDER_3", 8);
+        public static ScoreTrack Lowriders_FJ20 = new ScoreTrack(Collections.Lowriders, "lowrider_fj20", "Lowrider Funk Jam 20", "RC_LOWRIDER_4", 8);
+        public static ScoreTrack Lowriders_GTAV7 = new ScoreTrack(Collections.Lowriders, "lowrider_gtav7", "Lowrider GTAV 7", "RC_LOWRIDER_5", 8);
+        public static ScoreTrack Lowriders_GTAV62 = new ScoreTrack(Collections.Lowriders, "lowrider_gtav62", "Lowrider GTAV 62", "RC_LOWRIDER_6", 8);
+        public static ScoreTrack Lowriders_Low11 = new ScoreTrack(Collections.Lowriders, "lowrider_low11", "Lowrider Low 11", "RC_LOWRIDER_7", 8);
+        public static ScoreTrack Lowriders_Low12 = new ScoreTrack(Collections.Lowriders, "lowrider_low12", "Lowrider Low 12", "RC_LOWRIDER_8", 8);
+        public static ScoreTrack Lowriders_Low13 = new ScoreTrack(Collections.Lowriders, "lowrider_low13", "Lowrider Low 13", "RC_LOWRIDER_9", 8);
+        public static ScoreTrack Lowriders_Mission8 = new ScoreTrack(Collections.Lowriders, "lowrider_mission8", "Lowrider Mission 8", "RC_LOWRIDER_10", 8);
+        public static ScoreTrack Lowriders_Supa18 = new ScoreTrack(Collections.Lowriders, "lowrider_supa18", "Lowrider Supa 18", "RC_LOWRIDER_11", 8);
+
         public static ScoreTrack Assault_One = new ScoreTrack(Collections.Assault, "dlc_assault_tech_1", "Assault Tech One", "RC_ASSAULT_1", 6);
         public static ScoreTrack Assault_Two = new ScoreTrack(Collections.Assault, "dlc_assault_tech_2", "Assault Tech Two", "RC_ASSAULT_2", 6);
         public static ScoreTrack Assault_Three = new ScoreTrack(Collections.Assault, "dlc_assault_tech_3", "Assault Tech Three", "RC_ASSAULT_3", 6);
@@ -41,6 +53,18 @@ namespace Score_Controller
 
         public static List<ScoreTrack> TrackList = new List<ScoreTrack>()
         {
+            Lowriders_FJ10,
+            Lowriders_FJ11,
+            Lowriders_FJ17,
+            Lowriders_FJ20,
+            Lowriders_GTAV7,
+            Lowriders_GTAV62,
+            Lowriders_Low11,
+            Lowriders_Low12,
+            Lowriders_Low13,
+            Lowriders_Mission8,
+            Lowriders_Supa18,
+
             Assault_One,
             Assault_Two,
             Assault_Three,
@@ -81,6 +105,10 @@ namespace Score_Controller
         {
             foreach (ScoreTrack track in TrackList)
             {
+                if (track.Collection == Collections.Lowriders)
+                {
+                    listLowriders.Add(track.Title);
+                }
                 if (track.Collection == Collections.Assault)
                 {
                     listAssault.Add(track.Title);
@@ -113,12 +141,24 @@ namespace Score_Controller
             return TrackList.Find(track => track.Title == name);
         }
 
+        public static List<object> listLowriders = new List<object>();
         public static List<object> listAssault = new List<object>();
         public static List<object> listDoomsday = new List<object>();
         public static List<object> listSmuggler = new List<object>();
         public static List<object> listArenaWar = new List<object>();
         public static List<object> listWoodyJackson = new List<object>();
         public static List<object> listArsenyTomilov = new List<object>();
+
+        public static List<List<object>> scoreLists = new List<List<object>>
+        {
+            listLowriders,
+            listAssault,
+            listDoomsday,
+            listSmuggler,
+            listArenaWar,
+            listWoodyJackson,
+            listArsenyTomilov
+        };
 
         public static List<object> scoreInts = new List<object>
         {
