@@ -45,7 +45,7 @@ namespace Score_Controller
             controllerMain = new UIMenu(Text.controllerTitle, Text.controllerSubtitle);            
 
             controllerMain.AddItem(mainScoreCollection = new UIMenuListItem(Text.mainScoreCollectionTitle, Collections.scoreCollections, 0, Text.mainScoreCollectionDescr));
-            controllerMain.AddItem(mainScoreTrack = new UIMenuListItem(Text.mainScoreTrackTitle, Tracks.listAssault, 0, Text.mainScoreTrackDescr));
+            controllerMain.AddItem(mainScoreTrack = new UIMenuListItem(Text.mainScoreTrackTitle, Tracks.scoreLists[0], 0, Text.mainScoreTrackDescr));
             controllerMain.AddItem(mainScoreIntensity = new UIMenuListItem(Text.mainScoreIntensityTitle, Intensities.listIntensities, 0, Text.mainScoreIntensityDescr));
             controllerMain.AddItem(mainMuteSound = new UIMenuCheckboxItem(Text.mainMuteSoundTitle, false, Text.mainMuteSoundDescr));
             controllerMain.AddItem(mainMuteRadio = new UIMenuCheckboxItem(Text.mainMuteRadioTitle, false, Text.mainMuteRadioDescr));
@@ -174,6 +174,8 @@ namespace Score_Controller
 
                 TriggerEvent(Intensities.EventsList8[index]);
             }
+
+            UI.Notify("Intensity set for a track with " + currentScoreTrack.Stems.ToString() + " stems."); // #DEBUG
         }
 
         static void MuteSound()
@@ -448,27 +450,32 @@ namespace Score_Controller
 
             if (controllerMain.CurrentSelection == 0)
             {
-                switch (index)
-                {
-                    case 0:
-                        mainScoreTrack.Items = Tracks.listAssault;
-                        break;
-                    case 1:
-                        mainScoreTrack.Items = Tracks.listDoomsday;
-                        break;
-                    case 2:
-                        mainScoreTrack.Items = Tracks.listSmuggler;
-                        break;
-                    case 3:
-                        mainScoreTrack.Items = Tracks.listArenaWar;
-                        break;
-                    case 4:
-                        mainScoreTrack.Items = Tracks.listWoodyJackson;
-                        break;
-                    case 5:
-                        mainScoreTrack.Items = Tracks.listArsenyTomilov;
-                        break;
-                }
+                mainScoreTrack.Items = Tracks.scoreLists[index]; // Getting collection's tracklist by index
+
+                // switch (index) // A #NEWCOLLECTION must be added to this list
+                // {
+                //     case 0:
+                //         mainScoreTrack.Items = Tracks.listLowriders;
+                //         break;
+                //     case 1:
+                //         mainScoreTrack.Items = Tracks.listAssault;
+                //         break;
+                //     case 2:
+                //         mainScoreTrack.Items = Tracks.listDoomsday;
+                //         break;
+                //     case 3:
+                //         mainScoreTrack.Items = Tracks.listSmuggler;
+                //         break;
+                //     case 4:
+                //         mainScoreTrack.Items = Tracks.listArenaWar;
+                //         break;
+                //     case 5:
+                //         mainScoreTrack.Items = Tracks.listWoodyJackson;
+                //         break;
+                //     case 6:
+                //         mainScoreTrack.Items = Tracks.listArsenyTomilov;
+                //         break;
+                // }
 
                 mainScoreTrack.Index = 0;
             }
