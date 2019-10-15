@@ -20,7 +20,7 @@ namespace Score_Controller
             Smuggler,
             ArenaWar,
             WoodyJackson,
-            ArsenyTomilov
+            // ArsenyTomilov #BETA
         };
 
         public static void AddCollections() // Adding collections

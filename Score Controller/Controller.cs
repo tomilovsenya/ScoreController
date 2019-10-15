@@ -25,15 +25,18 @@ namespace Score_Controller
         private static bool IsSoundMuted = false; // The field to tell if sound is muted; ВОЗМОЖНО, НЕ ПРИГОДИТСЯ
         private static bool IsRadioMuted = false; // The field to tell if radio is muted
 
+        public static bool IsWarningMessageActive = false; // The field to tell if a warning message is displayed
+
         private static ScoreTrack currentScoreTrack = null; // Currently selected Score Track
         private static string currentMusicEvent = null; // Currently active Music Event
         private static string currentAudioScene = null; // Currently active Audio Scene
+        public static WarningMessage currentWarningMessage = null; // Currently active WarningMessage
 
         private static Sprite bannerScoreController = new Sprite("shopui_title_scorecontroller", "shopui_title_scorecontroller", new Point(0, 0), new Size(0, 0)); // Creating the banner
 
-        private static InstructionalButton buttonStopScore = new InstructionalButton(GTA.Control.Jump, "Stop Score"); // Creating the Stop Score button
-        private static InstructionalButton buttonStopScene = new InstructionalButton(GTA.Control.SelectWeapon, "Stop Scene"); // Creating the Stop Scene button
-        private static InstructionalButton buttonCancelEvent = new InstructionalButton(GTA.Control.SelectWeapon, "Cancel Event"); // Creating the Cancel Event button
+        private static InstructionalButton buttonStopScore = new InstructionalButton(Controls.SecondaryAction, "Stop Score"); // Creating the Stop Score button
+        private static InstructionalButton buttonStopScene = new InstructionalButton(Controls.TertiaryAction, "Stop Scene"); // Creating the Stop Scene button
+        private static InstructionalButton buttonCancelEvent = new InstructionalButton(Controls.TertiaryAction, "Cancel Event"); // Creating the Cancel Event button
 
         public Controller()
         {
@@ -42,7 +45,7 @@ namespace Score_Controller
             Intensities.AddIntensities(); // Adding all intensities
 
             controllerMenuPool = new MenuPool();
-            controllerMain = new UIMenu(Text.controllerTitle, Text.controllerSubtitle);            
+            controllerMain = new UIMenu(Text.controllerTitle, Text.controllerSubtitle);   
 
             controllerMain.AddItem(mainScoreCollection = new UIMenuListItem(Text.mainScoreCollectionTitle, Collections.scoreCollections, 0, Text.mainScoreCollectionDescr));
             controllerMain.AddItem(mainScoreTrack = new UIMenuListItem(Text.mainScoreTrackTitle, Tracks.scoreLists[0], 0, Text.mainScoreTrackDescr));
@@ -50,10 +53,10 @@ namespace Score_Controller
             controllerMain.AddItem(mainMuteSound = new UIMenuCheckboxItem(Text.mainMuteSoundTitle, false, Text.mainMuteSoundDescr));
             controllerMain.AddItem(mainMuteRadio = new UIMenuCheckboxItem(Text.mainMuteRadioTitle, false, Text.mainMuteRadioDescr));
 
-            controllerMain.AddItem(mainCustomEvent = new UIMenuItem(Text.mainCustomEventTitle, Text.mainCustomEventDescr));
-            controllerMain.AddItem(mainCustomScene = new UIMenuItem(Text.mainCustomSceneTitle, Text.mainCustomSceneDescr));
+            // controllerMain.AddItem(mainCustomEvent = new UIMenuItem(Text.mainCustomEventTitle, Text.mainCustomEventDescr)); #DEBUG
+            // controllerMain.AddItem(mainCustomScene = new UIMenuItem(Text.mainCustomSceneTitle, Text.mainCustomSceneDescr)); #DEBUG
 
-            controllerMain.SetBannerType(bannerScoreController); // Adding the banner
+            // controllerMain.SetBannerType(bannerScoreController); // Adding the banner #BETA
 
             controllerMain.AddInstructionalButton(buttonStopScore); // Adding the Stop Score button
 
@@ -65,6 +68,7 @@ namespace Score_Controller
             controllerMain.OnItemSelect += OnItemSelect;
             controllerMain.OnListChange += ListChangeHandler;
             controllerMain.OnCheckboxChange += OnCheckboxChange;
+            WarningMessage.OnWarningMessage += OnWarningMessage;
             controllerMain.RefreshIndex();
         }
 
@@ -98,7 +102,7 @@ namespace Score_Controller
             IsScorePlaying = true;
 
             string name = currentScoreTrack.Title;
-            UI.Notify("Current track is: " + name); // #DEBUG
+            // UI.Notify("Current track is: " + name); // #DEBUG
 
             TriggerEvent(currentScoreTrack.Event); // Triggering the Track's music event
 
@@ -126,7 +130,7 @@ namespace Score_Controller
                     break;
             }
 
-            // TriggerEvent(supportingevent); // Supporting Music Event so the track is playing
+            TriggerEvent(supportingevent); // Supporting Music Event so the track is playing
 
             mainScoreIntensity.Index = 0; // Changing selected Score Intensity to default
         }
@@ -175,7 +179,7 @@ namespace Score_Controller
                 TriggerEvent(Intensities.EventsList8[index]);
             }
 
-            UI.Notify("Intensity set for a track with " + currentScoreTrack.Stems.ToString() + " stems."); // #DEBUG
+            // UI.Notify("Intensity set for a track with " + currentScoreTrack.Stems.ToString() + " stems."); // #DEBUG
         }
 
         static void MuteSound()
@@ -212,6 +216,56 @@ namespace Score_Controller
             currentScoreTrack = Tracks.FindTrack(mainScoreTrack.Items[mainScoreTrack.Index].ToString());
         }
 
+        static void DisplayMenu() // Displaying the menu
+        {
+            controllerMain.RefreshIndex();
+            controllerMain.Visible = !controllerMain.Visible; // Showing/hiding the menu if Y (by default) is pressed
+
+            switch (controllerMain.Visible)
+            {
+                case true:
+                    Function.Call(Hash.PLAY_SOUND_FRONTEND, -1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", 1); // Playing sound on menu open
+                    break;
+
+                case false:
+                    Function.Call(Hash.PLAY_SOUND_FRONTEND, -1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", 1); // Playing Select sound on menu close as in the original Interaction Menu
+                    Function.Call(Hash.PLAY_SOUND_FRONTEND, -1, "BACK", "HUD_FRONTEND_DEFAULT_SOUNDSET", 1); // Playing sound on menu close
+                    break;
+            }
+        }
+
+        static void Reset() // Resetting the menu to all default
+        {
+            foreach (UIMenuListItem item in controllerMain.MenuItems) // All indexes to default
+            {
+                item.Index = 0;
+            }
+
+            foreach (UIMenuCheckboxItem item in controllerMain.MenuItems) // All checkboxes to unckecked
+            {
+                item.Checked = false;
+            }
+
+            if (currentAudioScene != null)
+                StopScene(currentAudioScene);
+
+            if (currentMusicEvent != null)
+                StopEvent(currentMusicEvent);
+
+            StopScore();
+            UnmuteRadio();
+            UnmuteSound();
+
+            // UI.Notify("Score Controller reset."); // #DEBUG
+        }
+
+        static void DisplayHelpText(string text)
+        {
+            Function.Call(Hash._SET_TEXT_COMPONENT_FORMAT, "STRING");
+            Function.Call(Hash._ADD_TEXT_COMPONENT_STRING, text);
+            Function.Call(Hash._0x238FFE5C7B0498A6, 0, 0, 1, -1);
+        }
+
         static bool IsHelpMessageBeingDisplayed() // Checking if a help message is being displayed
         {
             bool isDisplayed = Function.Call<bool>(Hash.IS_HELP_MESSAGE_BEING_DISPLAYED);
@@ -229,12 +283,12 @@ namespace Score_Controller
         {
             bool isAvailable;
 
-            bool isControlPressed = Game.IsControlPressed(246, GTA.Control.MpTextChatTeam);
             bool isPlayerControllable = Game.Player.CanControlCharacter;
             bool isHelpMessageNotDisplayed = !IsHelpMessageBeingDisplayed();
             bool isPhoneNotActive = !IsPhoneActive();
+            bool isMinigameNotInProgress = !IsMinigameInProgress();
 
-            if (isControlPressed && isPlayerControllable && isHelpMessageNotDisplayed && isPhoneNotActive)
+            if (isPlayerControllable && isHelpMessageNotDisplayed && isPhoneNotActive)
             {
                 isAvailable = true;
             }
@@ -265,7 +319,7 @@ namespace Score_Controller
             return isAvailable;
         }
 
-        static bool IsStopSceneAvailable() // Checking if everything is good for the Scene to be stopped
+        /*static bool IsStopSceneAvailable() // Checking if everything is good for the Scene to be stopped; #DEBUG
         {
             bool isAvailable;
 
@@ -282,9 +336,9 @@ namespace Score_Controller
             }
 
             return isAvailable;
-        }
+        }*/
 
-        static bool IsCancelEventAvailable() // Checking if everything is good for the Music Event to be cancelled
+        /*static bool IsCancelEventAvailable() // Checking if everything is good for the Music Event to be cancelled; #DEBUG
         {
             bool isAvailable;
 
@@ -301,8 +355,48 @@ namespace Score_Controller
             }
 
             return isAvailable;
+        }*/
+
+        static bool IsMissionInProgress() // Checking if a mission is in progress
+        {
+            bool isInProgress;
+
+            if (Function.Call<bool>(Hash.GET_MISSION_FLAG))
+            {
+                isInProgress = true;
+            }
+            else
+            {
+                isInProgress = false;
+            }
+
+            return isInProgress;
         }
-    #endregion
+
+        static bool IsMinigameInProgress() // Checking if a minigame is in progress
+        {
+            bool isInProgress;
+
+            if (Function.Call<bool>(Hash.IS_MINIGAME_IN_PROGRESS))
+            {
+                isInProgress = true;
+            }
+            else
+            {
+                isInProgress = false;
+            }
+
+            return isInProgress;
+        }
+
+        //static void CheckCheat()
+        //{
+        //    if (Function.Call<bool>(Hash._0x557E43C447E700A8, "resetsc")) //_HAS_CHEAT_STRING_JUST_BEEN_ENTERED
+        //    {
+        //        Reset();
+        //    }
+        //}
+        #endregion
 
         void OnIndexChange(UIMenu sender, int newindex)
         {
@@ -347,6 +441,7 @@ namespace Score_Controller
             if (!controllerMain.Visible)
             {
                 controllerMain.RemoveInstructionalButton(buttonStopScene); // Removing the Stop Scene button WORKAROUND BUGFIX
+                controllerMain.RemoveInstructionalButton(buttonCancelEvent); // Removing the Cancel Event button WORKAROUND BUGFIX
             }
 
             if (IsScorePlaying) // Disabling set/track selection while a Track is playing
@@ -365,51 +460,73 @@ namespace Score_Controller
             if (IsRadioMuted)
             {
                 Game.DisableControlThisFrame(85, GTA.Control.VehicleRadioWheel); // Disabling radio wheel in vehicles
+                Game.DisableControlThisFrame(81, GTA.Control.VehicleNextRadio); // Disabling radio in vehicles
+                Game.DisableControlThisFrame(82, GTA.Control.VehiclePrevRadio); // Disabling radio in vehicles
+                Game.DisableControlThisFrame(333, GTA.Control.RadioWheelLeftRight); // Disabling radio in vehicles
+                Game.DisableControlThisFrame(332, GTA.Control.RadioWheelUpDown); // Disabling radio in vehicles
+            }
+
+            if (IsWarningMessageActive) // Displaying and controlling warning message
+            {
+                WarningMessage.DisplayWarningMessage(currentWarningMessage);
             }
 
             // if (currentScoreTrack != null)
             // {
             //     UI.Notify("The current track is: " + currentScoreTrack.Title); // #DEBUG
             // }
+
+            // if (Function.Call<bool>(Hash.IS_PLAYER_DEAD), )
+            // {
+            //     int id = ;
+            //     Reset();
+            // }
         }
 
         void OnKeyDown(object sender, KeyEventArgs e)
         {
-            if (IsMenuAvailable())
+            /*if (IsMinigameInProgress() && IsMenuAvailable() && Game.IsControlPressed(0, Controls.ScoreController)) // Not allowing to use Score Controller during minigames; #BETA
             {
-                controllerMain.RefreshIndex();
-                controllerMain.Visible = !controllerMain.Visible; // Showing/hiding the menu if Y (by default) is pressed
-
-                switch (controllerMain.Visible)
-                {
-                    case true:
-                        Function.Call(Hash.PLAY_SOUND_FRONTEND, -1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", 1); // Playing sound on menu open
-                        break;
-
-                    case false:
-                        Function.Call(Hash.PLAY_SOUND_FRONTEND, -1, "SELECT", "HUD_FRONTEND_DEFAULT_SOUNDSET", 1); // Playing Select sound on menu close as in the original Interaction Menu
-                        Function.Call(Hash.PLAY_SOUND_FRONTEND, -1, "BACK", "HUD_FRONTEND_DEFAULT_SOUNDSET", 1); // Playing sound on menu close
-                        break;
-                }
+                DisplayHelpText(Text.helpMinigameInProgress);
             }
 
-            if (IsStopScoreAvailable() && Game.IsControlPressed(22, GTA.Control.Jump))
+            else if (IsMissionInProgress() && IsMenuAvailable() && Game.IsControlPressed(0, Controls.ScoreController)) // Handling Score Controller during missions; #BETA
+            {
+                currentWarningMessage = Messages.MissionInProgressWarning;
+
+                if (currentWarningMessage == Messages.MissionInProgressWarning && currentWarningMessage.State != 1)
+                {
+                    WarningMessage.PrepareWarningMessage(Messages.MissionInProgressWarning);
+                }
+                else
+                {
+                    DisplayMenu();
+                }
+            }*/
+
+            //else if (IsMenuAvailable() && Game.IsControlPressed(0, Controls.ScoreController)) #BETA
+            if (IsMenuAvailable() && Game.IsControlPressed(0, Controls.ScoreController))
+            {
+                DisplayMenu();
+            }
+
+            if (IsStopScoreAvailable() && Game.IsControlPressed(0, Controls.SecondaryAction))
             {
                 // UI.Notify("Score stopped."); // #DEBUG
                 StopScore(); // Stopping the currently playing Score Track
             }
 
-            if (IsStopSceneAvailable() && Game.IsControlPressed(37, GTA.Control.SelectWeapon))
+            /*if (IsStopSceneAvailable() && Game.IsControlPressed(0, Controls.TertiaryAction)) // #DEBUG
             {
                 // UI.Notify("Scene stopped: " + currentAudioScene); // #DEBUG
                 StopScene(currentAudioScene); // Stopping the currently playing Audio Scene
             }
 
-            if (IsCancelEventAvailable() && Game.IsControlPressed(37, GTA.Control.SelectWeapon))
+            if (IsCancelEventAvailable() && Game.IsControlPressed(0, Controls.TertiaryAction))
             {
-                UI.Notify("Event stopped: " + currentMusicEvent); // #DEBUG
+                // UI.Notify("Event stopped: " + currentMusicEvent); // #DEBUG
                 StopEvent(currentMusicEvent); // Cancelling the currently active Music Event
-            }
+            }*/
         }
 
         void OnItemSelect(UIMenu sender, UIMenuItem selectedItem, int index)
@@ -451,32 +568,6 @@ namespace Score_Controller
             if (controllerMain.CurrentSelection == 0)
             {
                 mainScoreTrack.Items = Tracks.scoreLists[index]; // Getting collection's tracklist by index
-
-                // switch (index) // A #NEWCOLLECTION must be added to this list
-                // {
-                //     case 0:
-                //         mainScoreTrack.Items = Tracks.listLowriders;
-                //         break;
-                //     case 1:
-                //         mainScoreTrack.Items = Tracks.listAssault;
-                //         break;
-                //     case 2:
-                //         mainScoreTrack.Items = Tracks.listDoomsday;
-                //         break;
-                //     case 3:
-                //         mainScoreTrack.Items = Tracks.listSmuggler;
-                //         break;
-                //     case 4:
-                //         mainScoreTrack.Items = Tracks.listArenaWar;
-                //         break;
-                //     case 5:
-                //         mainScoreTrack.Items = Tracks.listWoodyJackson;
-                //         break;
-                //     case 6:
-                //         mainScoreTrack.Items = Tracks.listArsenyTomilov;
-                //         break;
-                // }
-
                 mainScoreTrack.Index = 0;
             }
 
@@ -514,6 +605,14 @@ namespace Score_Controller
                         UnmuteRadio();
                         break;
                 }
+            }
+        }
+
+        void OnWarningMessage(WarningMessage message, int state)
+        {
+            if (message == Messages.MissionInProgressWarning && state == 1)
+            {
+                DisplayMenu();
             }
         }
     }

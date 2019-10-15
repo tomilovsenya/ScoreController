@@ -95,10 +95,10 @@ namespace Score_Controller
             ArenaWar_Seven,
             ArenaWar_Eight,
 
-            Sapstick,
+            Sapstick
 
-            Heist,
-            BTP
+            // Heist, #BETA
+            // BTP #BETA
         };
 
         public static void AddTracks() // Adding tracks; a #NEWCOLLECTION must be added to this list
@@ -129,10 +129,10 @@ namespace Score_Controller
                 {
                     listWoodyJackson.Add(track.Title);
                 }
-                if (track.Collection == Collections.ArsenyTomilov)
+                /*if (track.Collection == Collections.ArsenyTomilov) // #BETA
                 {
                     listArsenyTomilov.Add(track.Title);
-                }
+                }*/
             }
         }
 
@@ -147,7 +147,7 @@ namespace Score_Controller
         public static List<object> listSmuggler = new List<object>();
         public static List<object> listArenaWar = new List<object>();
         public static List<object> listWoodyJackson = new List<object>();
-        public static List<object> listArsenyTomilov = new List<object>();
+        // public static List<object> listArsenyTomilov = new List<object>(); #BETA
 
         public static List<List<object>> scoreLists = new List<List<object>>
         {
@@ -157,7 +157,7 @@ namespace Score_Controller
             listSmuggler,
             listArenaWar,
             listWoodyJackson,
-            listArsenyTomilov
+            // listArsenyTomilov #BETA
         };
 
         public static List<object> scoreInts = new List<object>

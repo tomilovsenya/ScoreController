@@ -5,8 +5,8 @@ namespace Score_Controller
 
     public class Text
     {
-        public static string controllerTitle = "";
-        // public static string controllerTitle = "Score Controller"; // Without custom banner
+        //public static string controllerTitle = ""; #BETA
+        public static string controllerTitle = "Score Controller"; // Without custom banner
         public static string controllerSubtitle = "SCORE CONTROLLER";
 
         public static string mainScoreCollectionTitle = "Score Set";
@@ -36,6 +36,10 @@ namespace Score_Controller
 
         public static string mainCustomSceneTitle = "Start Audio Scene";
         public static string mainCustomSceneDescr = "Start custom Audio Scene.";
+
+        public static string helpMinigameInProgress = "Score Controller is unavailable during this minigame.";
+
+        public static string helpActivateScoreController = "Press ~INPUT_MP_TEXT_CHAT_TEAM~ to activate Score Controller.";
              
         void Main()
         {

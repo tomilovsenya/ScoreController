@@ -56,12 +56,12 @@ namespace Score_Controller
 
         public static void AddIntensities() // Adding intensities
         {
-            int count = 0; // #DEBUG
+            // int count = 0; // #DEBUG
             foreach (ScoreIntensity collection in IntensitiesList)
             {
-                count++; // #DEBUG
+                // count++; // #DEBUG
                 listIntensities.Add(collection.Title);
-                UI.Notify("Added " + count + " intensities."); // #DEBUG
+                // UI.Notify("Added " + count + " intensities."); // #DEBUG
             }
         }
 
