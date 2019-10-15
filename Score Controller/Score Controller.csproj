@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Score_Controller</RootNamespace>
     <AssemblyName>Score Controller</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -55,7 +55,9 @@
   <ItemGroup>
     <Compile Include="Collections.cs" />
     <Compile Include="Controller.cs" />
+    <Compile Include="Controls.cs" />
     <Compile Include="Intensities.cs" />
+    <Compile Include="Messages.cs" />
     <Compile Include="OnscreenKeyboard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScoreCollection.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="ScoreTrack.cs" />
     <Compile Include="Text.cs" />
     <Compile Include="Tracks.cs" />
+    <Compile Include="WarningMessage.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
