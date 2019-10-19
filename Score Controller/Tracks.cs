@@ -4,6 +4,20 @@ namespace Score_Controller
 {
     public class Tracks
     {
+        public static ScoreTrack Biker_Buffalo = new ScoreTrack(Collections.Biker, "biker_buffalo", "Biker Buffalo", "RC_BIKER_1", 6);
+        public static ScoreTrack Biker_Driving = new ScoreTrack(Collections.Biker, "biker_driving", "Biker Driving", "RC_BIKER_2", 6);
+        public static ScoreTrack Biker_Eyes = new ScoreTrack(Collections.Biker, "biker_eyes", "Biker Eyes", "RC_BIKER_3", 6);
+        public static ScoreTrack Biker_Gaylord = new ScoreTrack(Collections.Biker, "biker_gaylord", "Biker Gaylord", "RC_BIKER_4", 6);
+        public static ScoreTrack Biker_Horse_Rap = new ScoreTrack(Collections.Biker, "biker_horse_rap", "Biker Horse Rap", "RC_BIKER_5", 6);
+        public static ScoreTrack Biker_Idea_One = new ScoreTrack(Collections.Biker, "biker_idea_1", "Biker Idea One", "RC_BIKER_6", 6);
+        public static ScoreTrack Biker_Idea_Three = new ScoreTrack(Collections.Biker, "biker_idea_3", "Biker Idea Three", "RC_BIKER_7", 6);
+        public static ScoreTrack Biker_Idea_Five = new ScoreTrack(Collections.Biker, "biker_idea_5", "Biker Idea Five", "RC_BIKER_8", 6);
+        public static ScoreTrack Biker_Idea_Seven = new ScoreTrack(Collections.Biker, "biker_idea_7", "Biker Idea Seven", "RC_BIKER_9", 6);
+        public static ScoreTrack Biker_Idea_Eight = new ScoreTrack(Collections.Biker, "biker_idea_8", "Biker Idea Eight", "RC_BIKER_10", 6);
+        public static ScoreTrack Biker_Jaguar = new ScoreTrack(Collections.Biker, "biker_jaguar", "Biker Jaguar", "RC_BIKER_11", 6);
+        public static ScoreTrack Biker_Strings = new ScoreTrack(Collections.Biker, "biker_strings", "Biker Strings", "RC_BIKER_12", 6);
+        public static ScoreTrack Biker_Take_Me_Back = new ScoreTrack(Collections.Biker, "biker_take_me_back", "Biker Take Me Back", "RC_BIKER_13", 6);
+
         public static ScoreTrack Lowriders_FJ10 = new ScoreTrack(Collections.Lowriders, "lowrider_fj10", "Lowrider Funk Jam 10", "RC_LOWRIDER_1", 8);
         public static ScoreTrack Lowriders_FJ11 = new ScoreTrack(Collections.Lowriders, "lowrider_fj11", "Lowrider Funk Jam 11", "RC_LOWRIDER_2", 8);
         public static ScoreTrack Lowriders_FJ17 = new ScoreTrack(Collections.Lowriders, "lowrider_fj17", "Lowrider Funk Jam 17", "RC_LOWRIDER_3", 8);
@@ -53,6 +67,20 @@ namespace Score_Controller
 
         public static List<ScoreTrack> TrackList = new List<ScoreTrack>()
         {
+            Biker_Buffalo,
+            Biker_Driving,
+            Biker_Eyes,
+            Biker_Gaylord,
+            Biker_Horse_Rap,
+            Biker_Idea_One,
+            Biker_Idea_Three,
+            Biker_Idea_Five,
+            Biker_Idea_Seven,
+            Biker_Idea_Eight,
+            Biker_Jaguar,
+            Biker_Strings,
+            Biker_Take_Me_Back,
+
             Lowriders_FJ10,
             Lowriders_FJ11,
             Lowriders_FJ17,
@@ -125,6 +153,10 @@ namespace Score_Controller
                 {
                     listArenaWar.Add(track.Title);
                 }
+                if (track.Collection == Collections.Biker)
+                {
+                    listBiker.Add(track.Title);
+                }
                 if (track.Collection == Collections.WoodyJackson)
                 {
                     listWoodyJackson.Add(track.Title);
@@ -146,6 +178,7 @@ namespace Score_Controller
         public static List<object> listDoomsday = new List<object>();
         public static List<object> listSmuggler = new List<object>();
         public static List<object> listArenaWar = new List<object>();
+        public static List<object> listBiker = new List<object>();
         public static List<object> listWoodyJackson = new List<object>();
         // public static List<object> listArsenyTomilov = new List<object>(); #BETA
 
@@ -156,6 +189,7 @@ namespace Score_Controller
             listDoomsday,
             listSmuggler,
             listArenaWar,
+            listBiker,
             listWoodyJackson,
             // listArsenyTomilov #BETA
         };

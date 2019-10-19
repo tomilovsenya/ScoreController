@@ -9,6 +9,7 @@ namespace Score_Controller
         public static ScoreCollection Doomsday = new ScoreCollection("The Doomsday Heist", "Doomsday", "HEIST2");
         public static ScoreCollection Smuggler = new ScoreCollection("Smuggler's Run", "Smuggler's Run", "SMUGGLER");
         public static ScoreCollection ArenaWar = new ScoreCollection("Arena War", "Arena War", "MC_AW_MUSIC");
+        public static ScoreCollection Biker = new ScoreCollection("Bikers", "Bikers", "BIKER");
         public static ScoreCollection WoodyJackson = new ScoreCollection("Woody Jackson's Tracks", "Woody Jackson", null);
         public static ScoreCollection ArsenyTomilov = new ScoreCollection("Arseny Tomilov's Tracks", "Arseny Tomilov", null);
 
@@ -19,6 +20,7 @@ namespace Score_Controller
             Doomsday,
             Smuggler,
             ArenaWar,
+            Biker,
             WoodyJackson,
             // ArsenyTomilov #BETA
         };
