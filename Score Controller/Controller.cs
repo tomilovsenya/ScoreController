@@ -287,8 +287,9 @@ namespace Score_Controller
             bool isHelpMessageNotDisplayed = !IsHelpMessageBeingDisplayed();
             bool isPhoneNotActive = !IsPhoneActive();
             bool isMinigameNotInProgress = !IsMinigameInProgress();
+            bool isMenuDisplayed = controllerMain.Visible;
 
-            if (isPlayerControllable && isHelpMessageNotDisplayed && isPhoneNotActive)
+            if (isPlayerControllable && isHelpMessageNotDisplayed && isPhoneNotActive && !isMenuDisplayed)
             {
                 isAvailable = true;
             }
@@ -505,6 +506,11 @@ namespace Score_Controller
             }*/
 
             //else if (IsMenuAvailable() && Game.IsControlPressed(0, Controls.ScoreController)) #BETA
+            if (IsMenuAvailable() && Game.IsControlPressed(0, Controls.ScoreController))
+            {
+                DisplayMenu();
+            }
+
             if (IsMenuAvailable() && Game.IsControlPressed(0, Controls.ScoreController))
             {
                 DisplayMenu();
