@@ -158,7 +158,7 @@ namespace Score_Controller
                 TriggerEvent(Intensities.EventsList5[index]);
             }
             
-            if (currentScoreTrack.Stems == 6) // Assault, Smuggler
+            if (currentScoreTrack.Stems == 6) // Assault, Smuggler, Biker
             {
                 int index = Intensities.IntensitiesList.IndexOf(intensity);
 
@@ -218,6 +218,8 @@ namespace Score_Controller
 
         static void DisplayMenu() // Displaying the menu
         {
+            // Function.Call(Hash.CLEAR_ALL_HELP_MESSAGES); // Deleting all help messages prior to opening up the menu
+
             controllerMain.RefreshIndex();
             controllerMain.Visible = !controllerMain.Visible; // Showing/hiding the menu if Y (by default) is pressed
 
@@ -256,7 +258,7 @@ namespace Score_Controller
             UnmuteRadio();
             UnmuteSound();
 
-            // UI.Notify("Score Controller reset."); // #DEBUG
+            UI.Notify("Score Controller reset."); // #DEBUG
         }
 
         static void DisplayHelpText(string text)
@@ -266,11 +268,11 @@ namespace Score_Controller
             Function.Call(Hash._0x238FFE5C7B0498A6, 0, 0, 1, -1);
         }
 
-        static bool IsHelpMessageBeingDisplayed() // Checking if a help message is being displayed
-        {
-            bool isDisplayed = Function.Call<bool>(Hash.IS_HELP_MESSAGE_BEING_DISPLAYED);
-            return isDisplayed;
-        }
+        // static bool IsHelpMessageBeingDisplayed() // Checking if a help message is being displayed
+        // {
+        //     bool isDisplayed = Function.Call<bool>(Hash.IS_HELP_MESSAGE_BEING_DISPLAYED);
+        //     return isDisplayed;
+        // }
 
         static bool IsPhoneActive() // Checking if the mobile phone is active
         {
@@ -284,12 +286,11 @@ namespace Score_Controller
             bool isAvailable;
 
             bool isPlayerControllable = Game.Player.CanControlCharacter;
-            bool isHelpMessageNotDisplayed = !IsHelpMessageBeingDisplayed();
             bool isPhoneNotActive = !IsPhoneActive();
             bool isMinigameNotInProgress = !IsMinigameInProgress();
             bool isMenuDisplayed = controllerMain.Visible;
 
-            if (isPlayerControllable && isHelpMessageNotDisplayed && isPhoneNotActive && !isMenuDisplayed)
+            if (isPlayerControllable && isPhoneNotActive && !isMenuDisplayed)
             {
                 isAvailable = true;
             }
@@ -430,13 +431,17 @@ namespace Score_Controller
 
             if (controllerMain.Visible)
             {
+                // Game.DisableControlThisFrame(51, GTA.Control.Context); // Disallowing doing actions while in the menu
+                // Game.DisableControlThisFrame(52, GTA.Control.ContextSecondary); // Disallowing doing actions while in the menu
                 Game.DisableControlThisFrame(22, GTA.Control.Jump); // Disallowing jumping while in the menu
                 Game.DisableControlThisFrame(76, GTA.Control.VehicleHandbrake); // Disallowing handbraking while in the menu
 
-                if (IsHelpMessageBeingDisplayed())
-                {
-                    controllerMain.Visible = false;
-                }
+                Function.Call(Hash.HIDE_HELP_TEXT_THIS_FRAME); // Hiding help text if the menu is displayed
+
+                // if (IsHelpMessageBeingDisplayed())
+                // {
+                //     controllerMain.Visible = false;
+                // }
             }
 
             if (!controllerMain.Visible)
@@ -477,9 +482,11 @@ namespace Score_Controller
             //     UI.Notify("The current track is: " + currentScoreTrack.Title); // #DEBUG
             // }
 
-            // if (Function.Call<bool>(Hash.IS_PLAYER_DEAD), )
+            // int id = Function.Call<int>(Hash.PLAYER_PED_ID); // Resetting SC on player's death
+            // Player player = Function.Call<Player>(Hash.INT_TO_PLAYERINDEX, id);
+            // 
+            // if (Function.Call<bool>(Hash.IS_PLAYER_DEAD, player))
             // {
-            //     int id = ;
             //     Reset();
             // }
         }
