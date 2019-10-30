@@ -37,7 +37,7 @@ namespace Score_Controller
         {
             "BTL_IDLE",
             "BTL_MED_INTENSITY",
-            "SMG_MP_ATTACK_MA"
+            "BTL_VEHICLE_ACTION"
         };
 
         public static List<string> EventsList7 = new List<string>() // Events for tracks consisting of 7 stems; the amount of events here must be equal to the amount of items in IntensitiesList
