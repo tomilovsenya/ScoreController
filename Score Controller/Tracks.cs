@@ -4,6 +4,19 @@ namespace Score_Controller
 {
     public class Tracks
     {
+        public static ScoreTrack Gunrunning_CS_One = new ScoreTrack(Collections.Gunrunning, "gunrunning_track_cs1", "Gunrunning Track CS One", "RC_GUNRUNNING_1", 6);
+        public static ScoreTrack Gunrunning_CS_Five = new ScoreTrack(Collections.Gunrunning, "gunrunning_track_cs5", "Gunrunning Track CS Five", "RC_GUNRUNNING_2", 8);
+        public static ScoreTrack Gunrunning_CS_Nine = new ScoreTrack(Collections.Gunrunning, "gunrunning_track_cs9", "Gunrunning Track CS Nine", "RC_GUNRUNNING_3", 4);
+        public static ScoreTrack Gunrunning_Track_GR_Two = new ScoreTrack(Collections.Gunrunning, "gunrunning_track_gr2", "Gunrunning Track GR 2", "RC_GUNRUNNING_4", 6);
+        public static ScoreTrack Gunrunning_Track_GR_Three = new ScoreTrack(Collections.Gunrunning, "gunrunning_track_gr3", "Gunrunning Track GR 3", "RC_GUNRUNNING_5", 6);
+        public static ScoreTrack Gunrunning_Track_GR_Four = new ScoreTrack(Collections.Gunrunning, "gunrunning_track_gr4", "Gunrunning Track GR 4", "RC_GUNRUNNING_6", 6);
+        public static ScoreTrack Gunrunning_Track_GR_Five = new ScoreTrack(Collections.Gunrunning, "gunrunning_track_gr5", "Gunrunning Track GR 5", "RC_GUNRUNNING_7", 6);
+        public static ScoreTrack Gunrunning_Track_GR_Nine = new ScoreTrack(Collections.Gunrunning, "gunrunning_track_gr9", "Gunrunning Track GR 9", "RC_GUNRUNNING_8", 6);
+        public static ScoreTrack Gunrunning_Track_GR_Twelve = new ScoreTrack(Collections.Gunrunning, "gunrunning_track_gr12", "Gunrunning Track GR 12", "RC_GUNRUNNING_9", 6);
+        public static ScoreTrack Gunrunning_Track_GR_Thirteen = new ScoreTrack(Collections.Gunrunning, "gunrunning_track_gr13", "Gunrunning Track GR 13", "RC_GUNRUNNING_10", 6);
+        public static ScoreTrack Gunrunning_Track_GR_Seventeen = new ScoreTrack(Collections.Gunrunning, "gunrunning_track_gr17", "Gunrunning Track GR 17", "RC_GUNRUNNING_11", 6);
+        public static ScoreTrack Gunrunning_Track_GR_Eighteen = new ScoreTrack(Collections.Gunrunning, "gunrunning_track_gr18", "Gunrunning Track GR 18", "RC_GUNRUNNING_12", 6);
+
         public static ScoreTrack Executive_Bespoke = new ScoreTrack(Collections.Executive, "powerplay_bespoke", "Power Play Bespoke", "RC_EXECUTIVE_1", 6);
         public static ScoreTrack Executive_Car_Steal = new ScoreTrack(Collections.Executive, "powerplay_bespoke", "Power Play Car Steal", "RC_EXECUTIVE_2", 6);
         public static ScoreTrack Executive_Cliff_Twelve = new ScoreTrack(Collections.Executive, "powerplay_bespoke", "Power Play Cliff Twelve", "RC_EXECUTIVE_3", 6);
@@ -76,6 +89,19 @@ namespace Score_Controller
 
         public static List<ScoreTrack> TrackList = new List<ScoreTrack>()
         {
+            Gunrunning_CS_One,
+            Gunrunning_CS_Five,
+            Gunrunning_CS_Nine,
+            Gunrunning_Track_GR_Two,
+            Gunrunning_Track_GR_Three,
+            Gunrunning_Track_GR_Four,
+            Gunrunning_Track_GR_Five,
+            Gunrunning_Track_GR_Nine,
+            Gunrunning_Track_GR_Twelve,
+            Gunrunning_Track_GR_Thirteen,
+            Gunrunning_Track_GR_Seventeen,
+            Gunrunning_Track_GR_Eighteen,
+
             Executive_Bespoke,
             Executive_Car_Steal,
             Executive_Cliff_Twelve,
@@ -171,6 +197,10 @@ namespace Score_Controller
                 {
                     listSmuggler.Add(track.Title);
                 }
+                if (track.Collection == Collections.Gunrunning)
+                {
+                    listGunrunning.Add(track.Title);
+                }
                 if (track.Collection == Collections.ArenaWar)
                 {
                     listArenaWar.Add(track.Title);
@@ -200,6 +230,7 @@ namespace Score_Controller
         public static List<object> listAssault = new List<object>();
         public static List<object> listDoomsday = new List<object>();
         public static List<object> listSmuggler = new List<object>();
+        public static List<object> listGunrunning = new List<object>();
         public static List<object> listArenaWar = new List<object>();
         public static List<object> listBiker = new List<object>();
         public static List<object> listWoodyJackson = new List<object>();
@@ -212,6 +243,7 @@ namespace Score_Controller
             listAssault,
             listDoomsday,
             listSmuggler,
+            listGunrunning,
             listArenaWar,
             listBiker,
             listWoodyJackson,

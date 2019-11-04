@@ -23,7 +23,9 @@ namespace Score_Controller
 
         public static List<string> EventsList4 = new List<string>() // Events for tracks consisting of 4 stems; the amount of events here must be equal to the amount of items in IntensitiesList
         {
-
+            "FAM2_COMING",
+            "FAM2_LOST_HIM",
+            "FAM2_SHOOTING"
         };
 
         public static List<string> EventsList5 = new List<string>() // Events for tracks consisting of 5 stems; the amount of events here must be equal to the amount of items in IntensitiesList

@@ -9,6 +9,7 @@ namespace Score_Controller
         public static ScoreCollection Assault = new ScoreCollection("Southern San Andreas Super Sport Series", "Assault", "ASSAULT");
         public static ScoreCollection Doomsday = new ScoreCollection("The Doomsday Heist", "Doomsday", "HEIST2");
         public static ScoreCollection Smuggler = new ScoreCollection("Smuggler's Run", "Smuggler's Run", "SMUGGLER");
+        public static ScoreCollection Gunrunning = new ScoreCollection("Gunrunning", "Gunrunning", "GUNRUNNING");
         public static ScoreCollection ArenaWar = new ScoreCollection("Arena War", "Arena War", "MC_AW_MUSIC");
         public static ScoreCollection Biker = new ScoreCollection("Bikers", "Bikers", "BIKER");
         public static ScoreCollection WoodyJackson = new ScoreCollection("Woody Jackson's Tracks", "Woody Jackson", null);
@@ -21,6 +22,7 @@ namespace Score_Controller
             Assault,
             Doomsday,
             Smuggler,
+            Gunrunning,
             ArenaWar,
             Biker,
             WoodyJackson,
