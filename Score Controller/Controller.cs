@@ -17,6 +17,7 @@ namespace Score_Controller
         private static UIMenuListItem mainScoreIntensity;
         private static UIMenuCheckboxItem mainMuteSound;
         private static UIMenuCheckboxItem mainMuteRadio;
+        private static UIMenuCheckboxItem mainDisableWanted;
 
         private static UIMenuItem mainCustomEvent;
         private static UIMenuItem mainCustomScene;
@@ -24,6 +25,7 @@ namespace Score_Controller
         private static bool IsScorePlaying = false; // The field to tell if a Track is playing
         private static bool IsSoundMuted = false; // The field to tell if sound is muted; ВОЗМОЖНО, НЕ ПРИГОДИТСЯ
         private static bool IsRadioMuted = false; // The field to tell if radio is muted
+        private static bool IsWantedDisabled = false; // The field to tell if wanted music is disabled
 
         public static bool IsWarningMessageActive = false; // The field to tell if a warning message is displayed
 
@@ -52,6 +54,7 @@ namespace Score_Controller
             controllerMain.AddItem(mainScoreIntensity = new UIMenuListItem(Text.mainScoreIntensityTitle, Intensities.listIntensities, 0, Text.mainScoreIntensityDescr));
             controllerMain.AddItem(mainMuteSound = new UIMenuCheckboxItem(Text.mainMuteSoundTitle, false, Text.mainMuteSoundDescr));
             controllerMain.AddItem(mainMuteRadio = new UIMenuCheckboxItem(Text.mainMuteRadioTitle, false, Text.mainMuteRadioDescr));
+            controllerMain.AddItem(mainDisableWanted = new UIMenuCheckboxItem(Text.mainDisableWantedTitle, false, Text.mainDisableWantedDescr));
 
             // controllerMain.AddItem(mainCustomEvent = new UIMenuItem(Text.mainCustomEventTitle, Text.mainCustomEventDescr)); #DEBUG
             // controllerMain.AddItem(mainCustomScene = new UIMenuItem(Text.mainCustomSceneTitle, Text.mainCustomSceneDescr)); #DEBUG
@@ -95,6 +98,16 @@ namespace Score_Controller
         {
             Function.Call(Hash.STOP_AUDIO_SCENE, name);
             currentAudioScene = null;
+        }
+
+        static void SetFlag(string name) // Setting an audio flag
+        {
+            Function.Call(Hash.SET_AUDIO_FLAG, name, true);
+        }
+
+        static void DisableFlag(string name) // Disabling an audio flag
+        {
+            Function.Call(Hash.SET_AUDIO_FLAG, name, false);
         }
 
         static void PlayScore() // Playing a Score Track
@@ -209,6 +222,20 @@ namespace Score_Controller
             IsRadioMuted = false;
 
             StopScene("MIC1_RADIO_DISABLE");
+        }
+
+        static void DisableWanted()
+        {
+            IsWantedDisabled = true;
+
+            SetFlag("WantedMusicDisabled");
+        }
+
+        static void EnableWanted()
+        {
+            IsWantedDisabled = false;
+
+            DisableFlag("WantedMusicDisabled");
         }
 
         static void GetCurrentTrack() // Determining the currently selected Score Track
@@ -406,23 +433,23 @@ namespace Score_Controller
            
             GetCurrentTrack(); // Getting current Score Track every time we move throughout the menu
 
-            if (newindex == 6)
-            {
-                controllerMain.AddInstructionalButton(buttonStopScene); // Adding the Stop Scene button
-            }
-            else
-            {
-                controllerMain.RemoveInstructionalButton(buttonStopScene); // Removing the Stop Scene button
-            }
-
-            if (newindex == 5)
-            {
-                controllerMain.AddInstructionalButton(buttonCancelEvent); // Adding the Cancel Event button
-            }
-            else
-            {
-                controllerMain.RemoveInstructionalButton(buttonCancelEvent); // Removing the Cancel Event button
-            }
+            //if (newindex == 6)
+            //{
+            //    controllerMain.AddInstructionalButton(buttonStopScene); // Adding the Stop Scene button
+            //}
+            //else
+            //{
+            //    controllerMain.RemoveInstructionalButton(buttonStopScene); // Removing the Stop Scene button
+            //}
+            //
+            //if (newindex == 5)
+            //{
+            //    controllerMain.AddInstructionalButton(buttonCancelEvent); // Adding the Cancel Event button
+            //}
+            //else
+            //{
+            //    controllerMain.RemoveInstructionalButton(buttonCancelEvent); // Removing the Cancel Event button
+            //}
         }
 
         void OnTick(object sender, EventArgs e)
@@ -616,6 +643,19 @@ namespace Score_Controller
                         break;
                     case false:
                         UnmuteRadio();
+                        break;
+                }
+            }
+
+            if (checkbox == mainDisableWanted)
+            {
+                switch (Checked)
+                {
+                    case true:
+                        DisableWanted();
+                        break;
+                    case false:
+                        EnableWanted();
                         break;
                 }
             }

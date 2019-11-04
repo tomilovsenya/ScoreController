@@ -31,6 +31,9 @@ namespace Score_Controller
         public static string mainMuteRadioTitle = "Mute Radio";
         public static string mainMuteRadioDescr = "Mute radio. Radio Wheel will be disabled in vehicles.";
 
+        public static string mainDisableWantedTitle = "Disable Wanted Music";
+        public static string mainDisableWantedDescr = "Disable wanted music that starts playing upon gaining 3 Wanted Stars.";
+
         public static string mainCustomEventTitle = "Trigger Music Event";
         public static string mainCustomEventDescr = "Trigger custom Music Event.";
 
