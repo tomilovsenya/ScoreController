@@ -4,6 +4,15 @@ namespace Score_Controller
 {
     public class Tracks
     {
+        public static ScoreTrack Executive_Bespoke = new ScoreTrack(Collections.Executive, "powerplay_bespoke", "Power Play Bespoke", "RC_EXECUTIVE_1", 6);
+        public static ScoreTrack Executive_Car_Steal = new ScoreTrack(Collections.Executive, "powerplay_bespoke", "Power Play Car Steal", "RC_EXECUTIVE_2", 6);
+        public static ScoreTrack Executive_Cliff_Twelve = new ScoreTrack(Collections.Executive, "powerplay_bespoke", "Power Play Cliff Twelve", "RC_EXECUTIVE_3", 6);
+        public static ScoreTrack Executive_Cliff_Eighteen = new ScoreTrack(Collections.Executive, "powerplay_bespoke", "Power Play Cliff Eighteen", "RC_EXECUTIVE_4", 6);
+        public static ScoreTrack Executive_GOT_Move = new ScoreTrack(Collections.Executive, "powerplay_bespoke", "Power Play GOT Move", "RC_EXECUTIVE_5", 6);
+        public static ScoreTrack Executive_Popo = new ScoreTrack(Collections.Executive, "powerplay_bespoke", "Power Play Popo", "RC_EXECUTIVE_6", 6);
+        public static ScoreTrack Executive_Psycho = new ScoreTrack(Collections.Executive, "powerplay_bespoke", "Power Play Psycho", "RC_EXECUTIVE_7", 6);
+        public static ScoreTrack Executive_Red_Sq = new ScoreTrack(Collections.Executive, "powerplay_bespoke", "Power Play Red Sq", "RC_EXECUTIVE_8", 6);
+
         public static ScoreTrack Biker_Buffalo = new ScoreTrack(Collections.Biker, "biker_buffalo", "Biker Buffalo", "RC_BIKER_1", 6);
         public static ScoreTrack Biker_Driving = new ScoreTrack(Collections.Biker, "biker_driving", "Biker Driving", "RC_BIKER_2", 6);
         public static ScoreTrack Biker_Eyes = new ScoreTrack(Collections.Biker, "biker_eyes", "Biker Eyes", "RC_BIKER_3", 6);
@@ -67,6 +76,15 @@ namespace Score_Controller
 
         public static List<ScoreTrack> TrackList = new List<ScoreTrack>()
         {
+            Executive_Bespoke,
+            Executive_Car_Steal,
+            Executive_Cliff_Twelve,
+            Executive_Cliff_Eighteen,
+            Executive_GOT_Move,
+            Executive_Popo,
+            Executive_Psycho,
+            Executive_Red_Sq,
+
             Biker_Buffalo,
             Biker_Driving,
             Biker_Eyes,
@@ -141,6 +159,10 @@ namespace Score_Controller
                 {
                     listAssault.Add(track.Title);
                 }
+                if (track.Collection == Collections.Executive)
+                {
+                    listExecutive.Add(track.Title);
+                }
                 if (track.Collection == Collections.Doomsday)
                 {
                     listDoomsday.Add(track.Title);
@@ -174,6 +196,7 @@ namespace Score_Controller
         }
 
         public static List<object> listLowriders = new List<object>();
+        public static List<object> listExecutive = new List<object>();
         public static List<object> listAssault = new List<object>();
         public static List<object> listDoomsday = new List<object>();
         public static List<object> listSmuggler = new List<object>();
@@ -185,6 +208,7 @@ namespace Score_Controller
         public static List<List<object>> scoreLists = new List<List<object>>
         {
             listLowriders,
+            listExecutive,
             listAssault,
             listDoomsday,
             listSmuggler,

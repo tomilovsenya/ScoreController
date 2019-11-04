@@ -5,6 +5,7 @@ namespace Score_Controller
     public class Collections
     {
         public static ScoreCollection Lowriders = new ScoreCollection("Lowriders", "Lowriders", "LOWRIDER");
+        public static ScoreCollection Executive = new ScoreCollection("Power Play", "Executive", "EXECUTIVE");
         public static ScoreCollection Assault = new ScoreCollection("Southern San Andreas Super Sport Series", "Assault", "ASSAULT");
         public static ScoreCollection Doomsday = new ScoreCollection("The Doomsday Heist", "Doomsday", "HEIST2");
         public static ScoreCollection Smuggler = new ScoreCollection("Smuggler's Run", "Smuggler's Run", "SMUGGLER");
@@ -16,6 +17,7 @@ namespace Score_Controller
         public static List<ScoreCollection> CollectionsList = new List<ScoreCollection>() // A #NEWCOLLECTION must be added to this list
         {
             Lowriders,
+            Executive,
             Assault,
             Doomsday,
             Smuggler,
