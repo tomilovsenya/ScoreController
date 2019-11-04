@@ -37,6 +37,9 @@ namespace Score_Controller
         public static string mainDisableFlightTitle = "Disable Flight Music";
         public static string mainDisableFlightDescr = "Disable flight music that starts playing upon getting airborne in an aircraft.";
 
+        public static string mainDisableOnDeathTitle = "Disable Score on Death";
+        public static string mainDisableOnDeathDescr = "Disable Score on player's death.";
+
         public static string mainCustomEventTitle = "Trigger Music Event";
         public static string mainCustomEventDescr = "Trigger custom Music Event.";
 

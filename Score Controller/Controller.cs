@@ -19,6 +19,7 @@ namespace Score_Controller
         private static UIMenuCheckboxItem mainMuteRadio;
         private static UIMenuCheckboxItem mainDisableWanted;
         private static UIMenuCheckboxItem mainDisableFlight;
+        private static UIMenuCheckboxItem mainDisableOnDeath;
 
         private static UIMenuItem mainCustomEvent;
         private static UIMenuItem mainCustomScene;
@@ -28,6 +29,7 @@ namespace Score_Controller
         private static bool IsRadioMuted = false; // The field to tell if radio is muted
         private static bool IsWantedDisabled = false; // The field to tell if wanted music is disabled
         private static bool IsFlightDisabled = false; // The field to tell if flying music is disabled
+        private static bool IsDisableOnDeath = true; // The field to tell if Score should be disabled on player's death
 
         public static bool IsWarningMessageActive = false; // The field to tell if a warning message is displayed
 
@@ -58,6 +60,7 @@ namespace Score_Controller
             controllerMain.AddItem(mainMuteRadio = new UIMenuCheckboxItem(Text.mainMuteRadioTitle, false, Text.mainMuteRadioDescr));
             controllerMain.AddItem(mainDisableWanted = new UIMenuCheckboxItem(Text.mainDisableWantedTitle, false, Text.mainDisableWantedDescr));
             controllerMain.AddItem(mainDisableFlight = new UIMenuCheckboxItem(Text.mainDisableFlightTitle, false, Text.mainDisableFlightDescr));
+            controllerMain.AddItem(mainDisableOnDeath = new UIMenuCheckboxItem(Text.mainDisableOnDeathTitle, true, Text.mainDisableOnDeathDescr));
 
             // controllerMain.AddItem(mainCustomEvent = new UIMenuItem(Text.mainCustomEventTitle, Text.mainCustomEventDescr)); #DEBUG
             // controllerMain.AddItem(mainCustomScene = new UIMenuItem(Text.mainCustomSceneTitle, Text.mainCustomSceneDescr)); #DEBUG
@@ -278,31 +281,6 @@ namespace Score_Controller
                     Function.Call(Hash.PLAY_SOUND_FRONTEND, -1, "BACK", "HUD_FRONTEND_DEFAULT_SOUNDSET", 1); // Playing sound on menu close
                     break;
             }
-        }
-
-        static void Reset() // Resetting the menu to all default
-        {
-            foreach (UIMenuListItem item in controllerMain.MenuItems) // All indexes to default
-            {
-                item.Index = 0;
-            }
-
-            foreach (UIMenuCheckboxItem item in controllerMain.MenuItems) // All checkboxes to unckecked
-            {
-                item.Checked = false;
-            }
-
-            if (currentAudioScene != null)
-                StopScene(currentAudioScene);
-
-            if (currentMusicEvent != null)
-                StopEvent(currentMusicEvent);
-
-            StopScore();
-            UnmuteRadio();
-            UnmuteSound();
-
-            UI.Notify("Score Controller reset."); // #DEBUG
         }
 
         static void DisplayHelpText(string text)
@@ -526,13 +504,15 @@ namespace Score_Controller
             //     UI.Notify("The current track is: " + currentScoreTrack.Title); // #DEBUG
             // }
 
-            // int id = Function.Call<int>(Hash.PLAYER_PED_ID); // Resetting SC on player's death
-            // Player player = Function.Call<Player>(Hash.INT_TO_PLAYERINDEX, id);
-            // 
-            // if (Function.Call<bool>(Hash.IS_PLAYER_DEAD, player))
-            // {
-            //     Reset();
-            // }
+            if (IsDisableOnDeath) // Resetting SC on player's death
+            {
+                Player player = Function.Call<Player>(Hash.PLAYER_ID);
+
+                if (Function.Call<bool>(Hash.IS_PLAYER_DEAD, player))
+                {
+                    StopScore();
+                }
+            }
         }
 
         void OnKeyDown(object sender, KeyEventArgs e)
@@ -686,6 +666,19 @@ namespace Score_Controller
                         break;
                     case false:
                         EnableFlight();
+                        break;
+                }
+            }
+
+            if (checkbox == mainDisableOnDeath)
+            {
+                switch (Checked)
+                {
+                    case true:
+                        IsDisableOnDeath = true;
+                        break;
+                    case false:
+                        IsDisableOnDeath = false;
                         break;
                 }
             }
