@@ -18,6 +18,7 @@ namespace Score_Controller
         private static UIMenuCheckboxItem mainMuteSound;
         private static UIMenuCheckboxItem mainMuteRadio;
         private static UIMenuCheckboxItem mainDisableWanted;
+        private static UIMenuCheckboxItem mainDisableFlight;
 
         private static UIMenuItem mainCustomEvent;
         private static UIMenuItem mainCustomScene;
@@ -26,6 +27,7 @@ namespace Score_Controller
         private static bool IsSoundMuted = false; // The field to tell if sound is muted; ВОЗМОЖНО, НЕ ПРИГОДИТСЯ
         private static bool IsRadioMuted = false; // The field to tell if radio is muted
         private static bool IsWantedDisabled = false; // The field to tell if wanted music is disabled
+        private static bool IsFlightDisabled = false; // The field to tell if flying music is disabled
 
         public static bool IsWarningMessageActive = false; // The field to tell if a warning message is displayed
 
@@ -47,7 +49,7 @@ namespace Score_Controller
             Intensities.AddIntensities(); // Adding all intensities
 
             controllerMenuPool = new MenuPool();
-            controllerMain = new UIMenu(Text.controllerTitle, Text.controllerSubtitle);   
+            controllerMain = new UIMenu(Text.controllerTitle, Text.controllerSubtitle);
 
             controllerMain.AddItem(mainScoreCollection = new UIMenuListItem(Text.mainScoreCollectionTitle, Collections.scoreCollections, 0, Text.mainScoreCollectionDescr));
             controllerMain.AddItem(mainScoreTrack = new UIMenuListItem(Text.mainScoreTrackTitle, Tracks.scoreLists[0], 0, Text.mainScoreTrackDescr));
@@ -55,6 +57,7 @@ namespace Score_Controller
             controllerMain.AddItem(mainMuteSound = new UIMenuCheckboxItem(Text.mainMuteSoundTitle, false, Text.mainMuteSoundDescr));
             controllerMain.AddItem(mainMuteRadio = new UIMenuCheckboxItem(Text.mainMuteRadioTitle, false, Text.mainMuteRadioDescr));
             controllerMain.AddItem(mainDisableWanted = new UIMenuCheckboxItem(Text.mainDisableWantedTitle, false, Text.mainDisableWantedDescr));
+            controllerMain.AddItem(mainDisableFlight = new UIMenuCheckboxItem(Text.mainDisableFlightTitle, false, Text.mainDisableFlightDescr));
 
             // controllerMain.AddItem(mainCustomEvent = new UIMenuItem(Text.mainCustomEventTitle, Text.mainCustomEventDescr)); #DEBUG
             // controllerMain.AddItem(mainCustomScene = new UIMenuItem(Text.mainCustomSceneTitle, Text.mainCustomSceneDescr)); #DEBUG
@@ -236,6 +239,20 @@ namespace Score_Controller
             IsWantedDisabled = false;
 
             DisableFlag("WantedMusicDisabled");
+        }
+
+        static void DisableFlight()
+        {
+            IsWantedDisabled = true;
+
+            SetFlag("DisableFlightMusic");
+        }
+
+        static void EnableFlight()
+        {
+            IsWantedDisabled = false;
+
+            DisableFlag("DisableFlightMusic");
         }
 
         static void GetCurrentTrack() // Determining the currently selected Score Track
@@ -656,6 +673,19 @@ namespace Score_Controller
                         break;
                     case false:
                         EnableWanted();
+                        break;
+                }
+            }
+
+            if (checkbox == mainDisableFlight)
+            {
+                switch (Checked)
+                {
+                    case true:
+                        DisableFlight();
+                        break;
+                    case false:
+                        EnableFlight();
                         break;
                 }
             }

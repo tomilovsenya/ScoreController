@@ -34,6 +34,9 @@ namespace Score_Controller
         public static string mainDisableWantedTitle = "Disable Wanted Music";
         public static string mainDisableWantedDescr = "Disable wanted music that starts playing upon gaining 3 Wanted Stars.";
 
+        public static string mainDisableFlightTitle = "Disable Flight Music";
+        public static string mainDisableFlightDescr = "Disable flight music that starts playing upon getting airborne in an aircraft.";
+
         public static string mainCustomEventTitle = "Trigger Music Event";
         public static string mainCustomEventDescr = "Trigger custom Music Event.";
 
