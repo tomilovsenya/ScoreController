@@ -3,6 +3,7 @@
 Score Controller is a script for Grand Theft Auto V that allows player to control Interactive Music. Uses [NativeUI](https://github.com/Guad/NativeUI) as the menu base.
 
 #### Components required (always install the latest stable versions available):
+- .NET Framework 4.8 Runtime: https://dotnet.microsoft.com/download/dotnet-framework/net48
 - ASI Loader and ScriptHookV: http://www.dev-c.com/gtav/scripthookv
 - ScriptHookVDotNet: https://github.com/crosire/scripthookvdotnet/releases
 - NativeUI: https://github.com/Guad/NativeUI/releases
@@ -15,7 +16,8 @@ Score Controller is a script for Grand Theft Auto V that allows player to contro
 - Select the Score Set you'd like to listen to a track from, and then select the track to listen to. It may take a few seconds for a track to start playing;
 - Tracks start playing with the lowest intensity by default. You can control the intensity with the Intensity menu entry: select the intensity level you need and press the accept button (Enter by default);
 - To play another track, stop the one that's currently playing. You can do this by pressing the key displayed in the right bottom corner of screen (Space by default);
-- Mute radio or sound if necessary.
+- Mute radio or sound if necessary;
+- Disable wanted or flight music if necessary (if not disabled, another track will start playing upon gaining 3 wanted stars or getting airborne in aircraft).
 
 #### Known issues:
 - If the Score Controller menu is triggered while the Interaction Menu is on screen, it will overlap the latter. Wasn't fixed yet, so I advice you not to bring up the Score Controller menu when the Interaction Menu is active;
