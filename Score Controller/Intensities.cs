@@ -5,9 +5,9 @@ namespace Score_Controller
 {
     public class Intensities
     {
-        public static ScoreIntensity Low = new ScoreIntensity("Low", "Low", "BTL_IDLE");
+        public static ScoreIntensity Low = new ScoreIntensity("Low", "Low", "BTL_SUSPENSE");
         public static ScoreIntensity Mid = new ScoreIntensity("Mid", "Mid", "BTL_MED_INTENSITY");
-        public static ScoreIntensity High = new ScoreIntensity("High", "High", "BTL_GUNFIGHT");
+        public static ScoreIntensity High = new ScoreIntensity("High", "High", "BTL_VEHICLE_ACTION");
 
         public static List<ScoreIntensity> IntensitiesList = new List<ScoreIntensity>()
         {
