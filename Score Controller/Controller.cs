@@ -21,8 +21,8 @@ namespace Score_Controller
         private static UIMenuCheckboxItem mainDisableFlight;
         private static UIMenuCheckboxItem mainDisableOnDeath;
 
-        private static UIMenuItem mainCustomEvent;
-        private static UIMenuItem mainCustomScene;
+        private static UIMenuItem mainCustomEvent; // #DEBUG
+        // private static UIMenuItem mainCustomScene;
 
         private static bool IsScorePlaying = false; // The field to tell if a Track is playing
         private static bool IsSoundMuted = false; // The field to tell if sound is muted; ВОЗМОЖНО, НЕ ПРИГОДИТСЯ
@@ -40,9 +40,9 @@ namespace Score_Controller
 
         private static Sprite bannerScoreController = new Sprite("shopui_title_scorecontroller", "shopui_title_scorecontroller", new Point(0, 0), new Size(0, 0)); // Creating the banner
 
-        private static InstructionalButton buttonStopScore = new InstructionalButton(Controls.SecondaryAction, "Stop Score"); // Creating the Stop Score button
-        private static InstructionalButton buttonStopScene = new InstructionalButton(Controls.TertiaryAction, "Stop Scene"); // Creating the Stop Scene button
-        private static InstructionalButton buttonCancelEvent = new InstructionalButton(Controls.TertiaryAction, "Cancel Event"); // Creating the Cancel Event button
+        private static InstructionalButton buttonStopScore = new InstructionalButton(Controls.SecondaryAction, Text.buttonStopScore); // Creating the Stop Score button
+        private static InstructionalButton buttonStopScene = new InstructionalButton(Controls.TertiaryAction, Text.buttonStopScene); // Creating the Stop Scene button
+        private static InstructionalButton buttonCancelEvent = new InstructionalButton(Controls.TertiaryAction, Text.buttonCancelEvent); // Creating the Cancel Event button
 
         public Controller()
         {
@@ -62,12 +62,13 @@ namespace Score_Controller
             controllerMain.AddItem(mainDisableFlight = new UIMenuCheckboxItem(Text.mainDisableFlightTitle, false, Text.mainDisableFlightDescr));
             controllerMain.AddItem(mainDisableOnDeath = new UIMenuCheckboxItem(Text.mainDisableOnDeathTitle, true, Text.mainDisableOnDeathDescr));
 
-            // controllerMain.AddItem(mainCustomEvent = new UIMenuItem(Text.mainCustomEventTitle, Text.mainCustomEventDescr)); #DEBUG
+            controllerMain.AddItem(mainCustomEvent = new UIMenuItem(Text.mainCustomEventTitle, Text.mainCustomEventDescr)); // #DEBUG
             // controllerMain.AddItem(mainCustomScene = new UIMenuItem(Text.mainCustomSceneTitle, Text.mainCustomSceneDescr)); #DEBUG
 
-            // controllerMain.SetBannerType(bannerScoreController); // Adding the banner #BETA
+            controllerMain.SetBannerType(bannerScoreController); // Adding the banner
 
             controllerMain.AddInstructionalButton(buttonStopScore); // Adding the Stop Score button
+            controllerMain.AddInstructionalButton(buttonCancelEvent); // Adding the Cancel event button #DEBUG
 
             controllerMenuPool.Add(controllerMain);
 
@@ -219,6 +220,7 @@ namespace Score_Controller
         {
             IsRadioMuted = true;
 
+            Function.Call(Hash.SET_RADIO_TO_STATION_NAME, "OFF"); // Radio Off at first
             //StartScene("CAR_MOD_RADIO_MUTE_SCENE");
             StartScene("MIC1_RADIO_DISABLE");
         }
@@ -587,15 +589,15 @@ namespace Score_Controller
                 SetInstensity();
             }
 
-            if (selectedItem == mainCustomEvent)
+            if (selectedItem == mainCustomEvent) // #DEBUG
             {
                 TriggerEvent(OnscreenKeyboard.GetInput());
             }
-
-            if (selectedItem == mainCustomScene)
-            {
-                StartScene(OnscreenKeyboard.GetInput());
-            }
+            // 
+            // if (selectedItem == mainCustomScene)
+            // {
+            //     StartScene(OnscreenKeyboard.GetInput());
+            // }
         }
 
         void ListChangeHandler(UIMenu sender, UIMenuListItem list, int index)
