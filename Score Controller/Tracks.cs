@@ -4,6 +4,11 @@ namespace Score_Controller
 {
     public class Tracks
     {
+        public static ScoreTrack Casino_Heist_One = new ScoreTrack(Collections.CasinoHeist, "casino_heist_1", "Casino Heist One", "SC_CASINO_HEIST_1_START", 8);
+        public static ScoreTrack Casino_Heist_Two = new ScoreTrack(Collections.CasinoHeist, "casino_heist_2", "Casino Heist Two", "MP_CHF_START", 8);
+        public static ScoreTrack Casino_Heist_Four = new ScoreTrack(Collections.CasinoHeist, "casino_heist_4", "Casino Heist Four", "RC_GUNRUNNING_1", 8);
+        public static ScoreTrack Casino_Heist_Eight = new ScoreTrack(Collections.CasinoHeist, "casino_heist_8", "Casino Heist Eight", "RC_GUNRUNNING_1", 8);
+        
         public static ScoreTrack Gunrunning_CS_One = new ScoreTrack(Collections.Gunrunning, "gunrunning_track_cs1", "Gunrunning Track CS One", "RC_GUNRUNNING_1", 6);
         public static ScoreTrack Gunrunning_CS_Five = new ScoreTrack(Collections.Gunrunning, "gunrunning_track_cs5", "Gunrunning Track CS Five", "RC_GUNRUNNING_2", 8);
         public static ScoreTrack Gunrunning_CS_Nine = new ScoreTrack(Collections.Gunrunning, "gunrunning_track_cs9", "Gunrunning Track CS Nine", "RC_GUNRUNNING_3", 4);
@@ -88,7 +93,11 @@ namespace Score_Controller
         public static ScoreTrack BTP = new ScoreTrack(Collections.ArsenyTomilov, "ts_btp", "BTP", "TS_BTP_START", 8);
 
         public static List<ScoreTrack> TrackList = new List<ScoreTrack>()
-        {
+        {   Casino_Heist_One,
+            Casino_Heist_Two,
+            Casino_Heist_Four,
+            Casino_Heist_Eight,
+
             Gunrunning_CS_One,
             Gunrunning_CS_Five,
             Gunrunning_CS_Nine,
@@ -193,6 +202,10 @@ namespace Score_Controller
                 {
                     listDoomsday.Add(track.Title);
                 }
+                if (track.Collection == Collections.CasinoHeist)
+                {
+                    listCasinoHeist.Add(track.Title);
+                }
                 if (track.Collection == Collections.Smuggler)
                 {
                     listSmuggler.Add(track.Title);
@@ -229,6 +242,7 @@ namespace Score_Controller
         public static List<object> listExecutive = new List<object>();
         public static List<object> listAssault = new List<object>();
         public static List<object> listDoomsday = new List<object>();
+        public static List<object> listCasinoHeist = new List<object>();
         public static List<object> listSmuggler = new List<object>();
         public static List<object> listGunrunning = new List<object>();
         public static List<object> listArenaWar = new List<object>();
@@ -242,6 +256,7 @@ namespace Score_Controller
             listExecutive,
             listAssault,
             listDoomsday,
+            listCasinoHeist,
             listSmuggler,
             listGunrunning,
             listArenaWar,

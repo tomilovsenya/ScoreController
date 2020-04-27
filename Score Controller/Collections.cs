@@ -8,6 +8,7 @@ namespace Score_Controller
         public static ScoreCollection Executive = new ScoreCollection("Power Play", "Executive", "EXECUTIVE");
         public static ScoreCollection Assault = new ScoreCollection("Southern San Andreas Super Sport Series", "Assault", "ASSAULT");
         public static ScoreCollection Doomsday = new ScoreCollection("The Doomsday Heist", "Doomsday", "HEIST2");
+        public static ScoreCollection CasinoHeist = new ScoreCollection("Diamond Casino Heist", "Diamond Casino Heist", "HEIST3");
         public static ScoreCollection Smuggler = new ScoreCollection("Smuggler's Run", "Smuggler's Run", "SMUGGLER");
         public static ScoreCollection Gunrunning = new ScoreCollection("Gunrunning", "Gunrunning", "GUNRUNNING");
         public static ScoreCollection ArenaWar = new ScoreCollection("Arena War", "Arena War", "MC_AW_MUSIC");
@@ -21,6 +22,7 @@ namespace Score_Controller
             Executive,
             Assault,
             Doomsday,
+            CasinoHeist,
             Smuggler,
             Gunrunning,
             ArenaWar,
