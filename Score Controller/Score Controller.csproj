@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>I:\Steam\steamapps\common\Grand Theft Auto V\scripts\</OutputPath>
+    <OutputPath>G:\Steam\steamapps\common\Grand Theft Auto V\scripts\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -33,14 +33,11 @@
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NativeUI, Version=1.8.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>I:\Steam\steamapps\common\Grand Theft Auto V\scripts\NativeUI.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="NativeUI">
+      <HintPath>G:\Steam\steamapps\common\Grand Theft Auto V\scripts\NativeUI.dll</HintPath>
     </Reference>
     <Reference Include="ScriptHookVDotNet2">
-      <HintPath>I:\Steam\steamapps\common\Grand Theft Auto V\ScriptHookVDotNet2.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>G:\Steam\steamapps\common\Grand Theft Auto V\ScriptHookVDotNet2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
