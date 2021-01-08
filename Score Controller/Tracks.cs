@@ -4,6 +4,28 @@ namespace Score_Controller
 {
     public class Tracks
     {
+        public static ScoreTrack ImportExport_Db_Would_Love_This = new ScoreTrack(Collections.ImportExport, "db_would_love_this", "DB Would Love This", "SC_IMPORTEXPORT_1", 8);
+        public static ScoreTrack ImportExport_Tundra = new ScoreTrack(Collections.ImportExport, "tundra", "Tundra", "SC_IMPORTEXPORT_2", 8);
+        public static ScoreTrack ImportExport_East_Of_All = new ScoreTrack(Collections.ImportExport, "east_of_all", "East Of All", "SC_IMPORTEXPORT_3", 8);
+        public static ScoreTrack ImportExport_Eiffel_Power = new ScoreTrack(Collections.ImportExport, "eifel_power", "Eiffel Power", "SC_IMPORTEXPORT_4", 8);
+        public static ScoreTrack ImportExport_Gullywax = new ScoreTrack(Collections.ImportExport, "gullywax", "Gullywax", "SC_IMPORTEXPORT_5", 8);
+        public static ScoreTrack ImportExport_Take_A_Day_Trip = new ScoreTrack(Collections.ImportExport, "take_a_day_trip", "Take A Day Trip", "SC_IMPORTEXPORT_6", 8);
+
+        
+        
+        public static ScoreTrack Halloween_2015 = new ScoreTrack(Collections.Halloween, "halloween_2015", "Halloween Slasher Theme", "SC_HALLOWEEN", 8);
+        
+        public static ScoreTrack Perico_Finale_a03 = new ScoreTrack(Collections.CayoPerico, "hei4_fin_track_a03", "Cayo Perico Finale A03", "SC_HEIST4_1", 8);
+        public static ScoreTrack Perico_Finale_m05 = new ScoreTrack(Collections.CayoPerico, "hei4_fin_track_m05", "Cayo Perico Finale M05", "SC_HEIST4_2", 8);
+        public static ScoreTrack Perico_Finale_r08 = new ScoreTrack(Collections.CayoPerico, "hei4_fin_track_r08", "Cayo Perico Finale R08", "SC_HEIST4_3", 8);
+        public static ScoreTrack Perico_Prep_a02 = new ScoreTrack(Collections.CayoPerico, "hei4_prep_track_a02", "Cayo Perico Prep A02", "SC_HEIST4_4", 8);
+        public static ScoreTrack Perico_Prep_a04 = new ScoreTrack(Collections.CayoPerico, "hei4_prep_track_a04", "Cayo Perico Prep A04", "SC_HEIST4_5", 8);
+        public static ScoreTrack Perico_Prep_m02 = new ScoreTrack(Collections.CayoPerico, "hei4_prep_track_m02", "Cayo Perico Prep M02", "SC_HEIST4_6", 8);
+        public static ScoreTrack Perico_Prep_m04 = new ScoreTrack(Collections.CayoPerico, "hei4_prep_track_m02", "Cayo Perico Prep M04", "SC_HEIST4_7", 8);
+        public static ScoreTrack Perico_Prep_r02 = new ScoreTrack(Collections.CayoPerico, "hei4_prep_track_r02", "Cayo Perico Prep R04", "SC_HEIST4_8", 8);
+        public static ScoreTrack Perico_Prep_r06 = new ScoreTrack(Collections.CayoPerico, "hei4_prep_track_r06", "Cayo Perico Prep R06", "SC_HEIST4_9", 8);
+        
+        
         public static ScoreTrack Casino_Heist_One = new ScoreTrack(Collections.CasinoHeist, "casino_heist_1", "Casino Heist One", "SC_CASINO_HEIST_1_START", 8);
         public static ScoreTrack Casino_Heist_Two = new ScoreTrack(Collections.CasinoHeist, "casino_heist_2", "Casino Heist Two", "MP_CHF_START", 8);
         public static ScoreTrack Casino_Heist_Four = new ScoreTrack(Collections.CasinoHeist, "casino_heist_4", "Casino Heist Four", "RC_GUNRUNNING_1", 8);
@@ -93,7 +115,30 @@ namespace Score_Controller
         public static ScoreTrack BTP = new ScoreTrack(Collections.ArsenyTomilov, "ts_btp", "BTP", "TS_BTP_START", 8);
 
         public static List<ScoreTrack> TrackList = new List<ScoreTrack>()
-        {   Casino_Heist_One,
+        {   
+            ImportExport_Db_Would_Love_This,
+            ImportExport_Tundra,
+            ImportExport_East_Of_All,
+            ImportExport_Eiffel_Power,
+            ImportExport_Gullywax,
+            ImportExport_Take_A_Day_Trip,
+            
+            
+            Halloween_2015,
+           
+            
+            Perico_Finale_a03,
+            Perico_Finale_m05,
+            Perico_Finale_r08,
+            Perico_Prep_a02,
+            Perico_Prep_a04,
+            Perico_Prep_m02,
+            Perico_Prep_m04,
+            Perico_Prep_r02,
+            Perico_Prep_r06,
+            
+            
+            Casino_Heist_One,
             Casino_Heist_Two,
             Casino_Heist_Four,
             Casino_Heist_Eight,
@@ -226,6 +271,18 @@ namespace Score_Controller
                 {
                     listWoodyJackson.Add(track.Title);
                 }
+                if (track.Collection == Collections.CayoPerico)
+                {
+                    listCayoPerico.Add(track.Title);
+                }    
+                if (track.Collection == Collections.Halloween)
+                {
+                    listHalloween.Add(track.Title);
+                }
+                if (track.Collection == Collections.ImportExport)
+                {    
+                    listImportExport.Add(track.Title);
+                }                      
                 /*if (track.Collection == Collections.ArsenyTomilov) // #BETA
                 {
                     listArsenyTomilov.Add(track.Title);
@@ -245,8 +302,11 @@ namespace Score_Controller
         public static List<object> listCasinoHeist = new List<object>();
         public static List<object> listSmuggler = new List<object>();
         public static List<object> listGunrunning = new List<object>();
+        public static List<object> listCayoPerico = new List<object>();    
         public static List<object> listArenaWar = new List<object>();
+        public static List<object> listImportExport = new List<object>();
         public static List<object> listBiker = new List<object>();
+        public static List<object> listHalloween = new List<object>();       
         public static List<object> listWoodyJackson = new List<object>();
         // public static List<object> listArsenyTomilov = new List<object>(); #BETA
 
@@ -261,6 +321,9 @@ namespace Score_Controller
             listGunrunning,
             listArenaWar,
             listBiker,
+            listHalloween,
+            listImportExport,
+            listCayoPerico,
             listWoodyJackson,
             // listArsenyTomilov #BETA
         };
