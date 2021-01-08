@@ -22,7 +22,7 @@ namespace Score_Controller
         public static ScoreTrack Perico_Prep_a04 = new ScoreTrack(Collections.CayoPerico, "hei4_prep_track_a04", "Cayo Perico Prep A04", "SC_HEIST4_5", 8);
         public static ScoreTrack Perico_Prep_m02 = new ScoreTrack(Collections.CayoPerico, "hei4_prep_track_m02", "Cayo Perico Prep M02", "SC_HEIST4_6", 8);
         public static ScoreTrack Perico_Prep_m04 = new ScoreTrack(Collections.CayoPerico, "hei4_prep_track_m02", "Cayo Perico Prep M04", "SC_HEIST4_7", 8);
-        public static ScoreTrack Perico_Prep_r02 = new ScoreTrack(Collections.CayoPerico, "hei4_prep_track_r02", "Cayo Perico Prep R04", "SC_HEIST4_8", 8);
+        public static ScoreTrack Perico_Prep_r02 = new ScoreTrack(Collections.CayoPerico, "hei4_prep_track_r02", "Cayo Perico Prep R02", "SC_HEIST4_8", 8);
         public static ScoreTrack Perico_Prep_r06 = new ScoreTrack(Collections.CayoPerico, "hei4_prep_track_r06", "Cayo Perico Prep R06", "SC_HEIST4_9", 8);
         
         
