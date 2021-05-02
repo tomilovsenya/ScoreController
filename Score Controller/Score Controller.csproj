@@ -22,22 +22,35 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>G:\Steam\steamapps\common\Grand Theft Auto V\scripts\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ExternalDLCPack|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>G:\Steam\steamapps\common\Grand Theft Auto V\scripts\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;DLCPACK</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="NativeUI">
-      <HintPath>G:\Steam\steamapps\common\Grand Theft Auto V\scripts\NativeUI.dll</HintPath>
+    <Reference Include="NativeUI, Version=1.9.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\NativeUI.dll</HintPath>
     </Reference>
     <Reference Include="ScriptHookVDotNet2">
-      <HintPath>G:\Steam\steamapps\common\Grand Theft Auto V\ScriptHookVDotNet2.dll</HintPath>
+      <HintPath>..\References\ScriptHookVDotNet2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -61,6 +74,7 @@
     <Compile Include="ScoreCollection.cs" />
     <Compile Include="ScoreIntensity.cs" />
     <Compile Include="ScoreTrack.cs" />
+    <Compile Include="Testing.cs" />
     <Compile Include="Text.cs" />
     <Compile Include="Tracks.cs" />
     <Compile Include="WarningMessage.cs" />

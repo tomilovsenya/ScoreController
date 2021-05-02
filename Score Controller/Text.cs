@@ -5,8 +5,8 @@ namespace Score_Controller
 
     public class Text
     {
-        public static string controllerTitle = "";
-        //public static string controllerTitle = GetGXTEntry("SCUI_TITLE"); // Without custom banner
+#if DLCPACK
+        public static string controllerTitle = GetGXTEntry("SCUI_TITLE");
         public static string controllerSubtitle = GetGXTEntry("SCUI_TITLE_SUB");
 
         public static string mainScoreCollectionTitle = GetGXTEntry("SCUI_MENUENTRY_SCORESET");
@@ -53,10 +53,59 @@ namespace Score_Controller
         public static string buttonStopScore = GetGXTEntry("SCUI_BUTTON_STOPSCORE");
         public static string buttonStopScene = GetGXTEntry("SCUI_BUTTON_STOPSCENE");
         public static string buttonCancelEvent = GetGXTEntry("SCUI_BUTTON_CANCELEVENT");
-             
+
         private static string GetGXTEntry(string entryname)
         {
             return Game.GetGXTEntry(entryname);
         }
+#else
+        public static string controllerTitle = "Score Controller";
+        public static string controllerSubtitle = "SCORE CONTROLLER";
+
+        public static string mainScoreCollectionTitle = "Score Set";
+        public static string mainScoreCollectionDescr = "Select a Score Set you would like to listen to a track from.";
+
+        public static string mainScoreTrackTitle = "Track";
+        public static string mainScoreTrackDescr = "Select a Score Track from the current collection to listen to.";
+
+        public static string mainPlayAssaultDescr = "Select a Score Track from the Southern San Andreas Super Sport Series collection to listen to.";
+        public static string mainPlayDoomsdayDescr = "Select a Score Track from the Doomsday Heist collection to listen to.";
+        public static string mainPlaySmugglerDescr = "Select a Score Track from the Smuggler's Run collection to listen to.";
+        public static string mainPlayArenaWarDescr = "Select a Score Track from the Arena War collection to listen to.";
+        public static string mainPlayWoodyJacksonDescr = "Select a Score Track from the Woody Jackson's Tracks collection to listen to.";
+        public static string mainPlayArsenyTomilovDescr = "Select a Score Track from the Arseny Tomilov's Tracks collection to listen to.";
+
+        public static string mainScoreIntensityTitle = "Intensity";
+        public static string mainScoreIntensityDescr = "Select from the available intensity modes to control the playing track's phase.";
+
+        public static string mainMuteSoundTitle = "Mute Sound";
+        public static string mainMuteSoundDescr = "Mute all sound but music.";
+
+        public static string mainMuteRadioTitle = "Mute Radio";
+        public static string mainMuteRadioDescr = "Mute radio. Radio Wheel will be disabled in vehicles.";
+
+        public static string mainDisableWantedTitle = "Disable Wanted Music";
+        public static string mainDisableWantedDescr = "Disable wanted music that starts playing upon gaining 3 Wanted Stars.";
+
+        public static string mainDisableFlightTitle = "Disable Flight Music";
+        public static string mainDisableFlightDescr = "Disable flight music that starts playing upon getting airborne in an aircraft.";
+
+        public static string mainDisableOnDeathTitle = "Stop Score on Death";
+        public static string mainDisableOnDeathDescr = "Stop the playing Score Track on player's death.";
+
+        public static string mainCustomEventTitle = "Trigger Music Event";
+        public static string mainCustomEventDescr = "Trigger custom Music Event.";
+
+        public static string mainCustomSceneTitle = "Start Audio Scene";
+        public static string mainCustomSceneDescr = "Start custom Audio Scene.";
+
+        public static string helpMinigameInProgress = "Score Controller is unavailable during this minigame.";
+
+        public static string helpActivateScoreController = "Press ~INPUT_MP_TEXT_CHAT_TEAM~ to activate Score Controller.";
+
+        public static string buttonStopScore = "Stop Score";
+        public static string buttonStopScene = "Stop Audio Scene";
+        public static string buttonCancelEvent = "Cancel Music Event";
+#endif
     }
 }

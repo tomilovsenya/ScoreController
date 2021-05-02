@@ -11,6 +11,9 @@ namespace Score_Controller
     {
         MenuPool controllerMenuPool;
         private static UIMenu controllerMain;
+#if DEBUG
+        private static UIMenu testingMain; // #DEBUG
+#endif
 
         private static UIMenuListItem mainScoreCollection;
         private static UIMenuListItem mainScoreTrack;
@@ -21,11 +24,16 @@ namespace Score_Controller
         private static UIMenuCheckboxItem mainDisableFlight;
         private static UIMenuCheckboxItem mainDisableOnDeath;
 
+#if DEBUG
         private static UIMenuItem mainCustomEvent; // #DEBUG
         // private static UIMenuItem mainCustomScene;
+        private static UIMenuItem mainTesting; // #DEBUG
+
+        private static UIMenuItem testingFinaleTrack; // #DEBUG
+#endif
 
         private static bool IsScorePlaying = false; // The field to tell if a Track is playing
-        private static bool IsSoundMuted = false; // The field to tell if sound is muted; ВОЗМОЖНО, НЕ ПРИГОДИТСЯ
+        private static bool IsSoundMuted = false; // The field to tell if sound is muted; MIGHT NOT BE USEFUL
         private static bool IsRadioMuted = false; // The field to tell if radio is muted
         private static bool IsWantedDisabled = false; // The field to tell if wanted music is disabled
         private static bool IsFlightDisabled = false; // The field to tell if flying music is disabled
@@ -38,7 +46,9 @@ namespace Score_Controller
         private static string currentAudioScene = null; // Currently active Audio Scene
         public static WarningMessage currentWarningMessage = null; // Currently active WarningMessage
 
-        private static Sprite bannerScoreController = new Sprite("shopui_title_scorecontroller", "shopui_title_scorecontroller", new Point(0, 0), new Size(0, 0)); // Creating the banner
+#if DLCPACK
+        private static Sprite bannerScoreController = new Sprite("shopui_title_scorecontroller", "shopui_title_scorecontroller", new Point(0, 0), new Size(0, 0)); // Creating the custom banner
+#endif
 
         private static InstructionalButton buttonStopScore = new InstructionalButton(Controls.SecondaryAction, Text.buttonStopScore); // Creating the Stop Score button
         private static InstructionalButton buttonStopScene = new InstructionalButton(Controls.TertiaryAction, Text.buttonStopScene); // Creating the Stop Scene button
@@ -51,7 +61,14 @@ namespace Score_Controller
             Intensities.AddIntensities(); // Adding all intensities
 
             controllerMenuPool = new MenuPool();
-            controllerMain = new UIMenu(Text.controllerTitle, Text.controllerSubtitle);
+#if DLCPACK
+            controllerMain = new UIMenu("", Text.controllerSubtitle); // With custom banner
+#else
+            controllerMain = new UIMenu(Text.controllerTitle, Text.controllerSubtitle); // Without custom banner
+#endif
+#if DEBUG
+            testingMain = new UIMenu("Testing", "TESTING OPTIONS"); // #DEBUG
+#endif
 
             controllerMain.AddItem(mainScoreCollection = new UIMenuListItem(Text.mainScoreCollectionTitle, Collections.scoreCollections, 0, Text.mainScoreCollectionDescr));
             controllerMain.AddItem(mainScoreTrack = new UIMenuListItem(Text.mainScoreTrackTitle, Tracks.scoreLists[0], 0, Text.mainScoreTrackDescr));
@@ -62,15 +79,27 @@ namespace Score_Controller
             controllerMain.AddItem(mainDisableFlight = new UIMenuCheckboxItem(Text.mainDisableFlightTitle, false, Text.mainDisableFlightDescr));
             controllerMain.AddItem(mainDisableOnDeath = new UIMenuCheckboxItem(Text.mainDisableOnDeathTitle, true, Text.mainDisableOnDeathDescr));
 
+#if DEBUG
             controllerMain.AddItem(mainCustomEvent = new UIMenuItem(Text.mainCustomEventTitle, Text.mainCustomEventDescr)); // #DEBUG
             // controllerMain.AddItem(mainCustomScene = new UIMenuItem(Text.mainCustomSceneTitle, Text.mainCustomSceneDescr)); #DEBUG
+            controllerMain.AddItem(mainTesting = new UIMenuItem("Testing", "Testing stuff.")); // #DEBUG
 
+            testingMain.AddItem(testingFinaleTrack = new UIMenuItem("Trigger CH Finale Track", "Testing stuff.")); // #DEBUG
+#endif
+
+#if DLCPACK
             controllerMain.SetBannerType(bannerScoreController); // Adding the banner
+#endif
 
             controllerMain.AddInstructionalButton(buttonStopScore); // Adding the Stop Score button
+#if DEBUG
             controllerMain.AddInstructionalButton(buttonCancelEvent); // Adding the Cancel event button #DEBUG
+#endif
 
             controllerMenuPool.Add(controllerMain);
+#if DEBUG
+            controllerMenuPool.Add(testingMain); // #DEBUG
+#endif
 
             Tick += OnTick;
             KeyDown += OnKeyDown;
@@ -80,6 +109,10 @@ namespace Score_Controller
             controllerMain.OnCheckboxChange += OnCheckboxChange;
             WarningMessage.OnWarningMessage += OnWarningMessage;
             controllerMain.RefreshIndex();
+
+#if DEBUG
+            testingMain.OnItemSelect += OnItemSelect; // #DEBUG
+#endif
         }
 
         #region Methods
@@ -122,7 +155,9 @@ namespace Score_Controller
             IsScorePlaying = true;
 
             string name = currentScoreTrack.Title;
-            // UI.Notify("Current track is: " + name); // #DEBUG
+#if DEBUG
+            UI.Notify("Current track is: " + name); // #DEBUG
+#endif
 
             TriggerEvent(currentScoreTrack.Event); // Triggering the Track's music event
 
@@ -199,7 +234,9 @@ namespace Score_Controller
                 TriggerEvent(Intensities.EventsList8[index]);
             }
 
-            // UI.Notify("Intensity set for a track with " + currentScoreTrack.Stems.ToString() + " stems."); // #DEBUG
+#if DEBUG
+            UI.Notify("Intensity set for a track with " + currentScoreTrack.Stems.ToString() + " stems."); // #DEBUG
+#endif
         }
 
         static void MuteSound()
@@ -345,6 +382,7 @@ namespace Score_Controller
             return isAvailable;
         }
 
+#if DEBUG
         /*static bool IsStopSceneAvailable() // Checking if everything is good for the Scene to be stopped; #DEBUG
         {
             bool isAvailable;
@@ -382,6 +420,7 @@ namespace Score_Controller
 
             return isAvailable;
         }*/
+#endif
 
         static bool IsMissionInProgress() // Checking if a mission is in progress
         {
@@ -424,6 +463,7 @@ namespace Score_Controller
         //}
         #endregion
 
+        #region EventHandlers
         void OnIndexChange(UIMenu sender, int newindex)
         {
             if (sender != controllerMain) return;
@@ -501,10 +541,12 @@ namespace Score_Controller
                 WarningMessage.DisplayWarningMessage(currentWarningMessage);
             }
 
-            // if (currentScoreTrack != null)
-            // {
-            //     UI.Notify("The current track is: " + currentScoreTrack.Title); // #DEBUG
-            // }
+#if DEBUG
+            if (currentScoreTrack != null)
+            {
+                UI.Notify("The current track is: " + currentScoreTrack.Title); // #DEBUG
+            }
+#endif
 
             if (IsDisableOnDeath) // Resetting SC on player's death
             {
@@ -551,10 +593,13 @@ namespace Score_Controller
 
             if (IsStopScoreAvailable() && Game.IsControlPressed(0, Controls.SecondaryAction))
             {
-                // UI.Notify("Score stopped."); // #DEBUG
+#if DEBUG
+                UI.Notify("Score stopped."); // #DEBUG
+#endif
                 StopScore(); // Stopping the currently playing Score Track
             }
 
+#if DEBUG
             /*if (IsStopSceneAvailable() && Game.IsControlPressed(0, Controls.TertiaryAction)) // #DEBUG
             {
                 // UI.Notify("Scene stopped: " + currentAudioScene); // #DEBUG
@@ -566,6 +611,7 @@ namespace Score_Controller
                 // UI.Notify("Event stopped: " + currentMusicEvent); // #DEBUG
                 StopEvent(currentMusicEvent); // Cancelling the currently active Music Event
             }*/
+#endif
         }
 
         void OnItemSelect(UIMenu sender, UIMenuItem selectedItem, int index)
@@ -579,7 +625,7 @@ namespace Score_Controller
                 controllerMain.GoDown();
             }
 
-            if (controllerMain.CurrentSelection == 1 && !hasWentDown)
+            if (selectedItem == mainScoreTrack && !hasWentDown)
             {
                 PlayScore();
             }
@@ -589,6 +635,7 @@ namespace Score_Controller
                 SetInstensity();
             }
 
+#if DEBUG
             if (selectedItem == mainCustomEvent) // #DEBUG
             {
                 TriggerEvent(OnscreenKeyboard.GetInput());
@@ -598,6 +645,20 @@ namespace Score_Controller
             // {
             //     StartScene(OnscreenKeyboard.GetInput());
             // }
+
+            if (selectedItem == mainTesting) // #DEBUG
+            {
+                controllerMain.Visible = false;
+                testingMain.Visible = true;
+            }
+
+            if (sender == testingMain && selectedItem == testingFinaleTrack)
+            {
+                TriggerEvent("MP_CHF_START");
+                TriggerEvent("MP_CHF_MED_INTENSITY");
+                UI.Notify("CH Finale track triggered.");
+            }
+#endif
         }
 
         void ListChangeHandler(UIMenu sender, UIMenuListItem list, int index)
@@ -693,5 +754,6 @@ namespace Score_Controller
                 DisplayMenu();
             }
         }
+        #endregion
     }
 }

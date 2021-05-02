@@ -33,12 +33,16 @@ namespace Score_Controller
 
         public static void AddCollections() // Adding collections
         {
+#if DEBUG
             // int count = 0; // #DEBUG
+#endif
             foreach (ScoreCollection collection in CollectionsList)
             {
-                // count++; // #DEBUG
                 scoreCollections.Add(collection.Title);
+#if DEBUG
+                // count++; // #DEBUG
                 // UI.Notify("Added " + count + " collections."); // #DEBUG
+#endif
             }
         }
 

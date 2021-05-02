@@ -1,0 +1,876 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NativeUI</name>
+    </assembly>
+    <members>
+        <member name="M:NativeUI.InstructionalButton.#ctor(GTA.Control,System.String)">
+            <summary>
+            Add a dynamic button to the instructional buttons array.
+            Changes whether the controller is being used and changes depending on keybinds.
+            </summary>
+            <param name="control">GTA.Control that gets converted into a button.</param>
+            <param name="text">Help text that goes with the button.</param>
+        </member>
+        <member name="M:NativeUI.InstructionalButton.#ctor(System.String,System.String)">
+            <summary>
+            Adds a keyboard button to the instructional buttons array.
+            </summary>
+            <param name="keystring">Custom keyboard button, like "I", or "O", or "F5".</param>
+            <param name="text">Help text that goes with the button.</param>
+        </member>
+        <member name="M:NativeUI.InstructionalButton.BindToItem(NativeUI.UIMenuItem)">
+            <summary>
+            Bind this button to an item, so it's only shown when that item is selected.
+            </summary>
+            <param name="item">Item to bind to.</param>
+        </member>
+        <member name="M:NativeUI.UIMenuDynamicListItem.#ctor(System.String,System.String,NativeUI.UIMenuDynamicListItem.DynamicListItemChangeCallback)">
+            <summary>
+            List item with items generated at runtime
+            </summary>
+            <param name="text">Label text</param>
+        </member>
+        <member name="M:NativeUI.UIMenuDynamicListItem.#ctor(System.String,System.String,System.String,NativeUI.UIMenuDynamicListItem.DynamicListItemChangeCallback)">
+            <summary>
+            List item with items generated at runtime
+            </summary>
+            <param name="text">Label text</param>
+            <param name="description">Item description</param>
+        </member>
+        <member name="M:NativeUI.UIMenuDynamicListItem.Position(System.Int32)">
+            <summary>
+            Change item's position.
+            </summary>
+            <param name="y">New Y position.</param>
+        </member>
+        <member name="M:NativeUI.UIMenuDynamicListItem.Draw">
+            <summary>
+            Draw item.
+            </summary>
+        </member>
+        <member name="E:NativeUI.UIMenuSliderItem.OnSliderChanged">
+            <summary>
+            Triggered when the slider is changed.
+            </summary>
+        </member>
+        <member name="P:NativeUI.UIMenuSliderItem.Maximum">
+            <summary>
+            The maximum value of the slider.
+            </summary>
+        </member>
+        <member name="P:NativeUI.UIMenuSliderItem.Value">
+            <summary>
+            Curent value of the slider.
+            </summary>
+        </member>
+        <member name="P:NativeUI.UIMenuSliderItem.Multiplier">
+            <summary>
+            The multiplier of the left and right navigation movements.
+            </summary>
+        </member>
+        <member name="M:NativeUI.UIMenuSliderItem.#ctor(System.String)">
+            <summary>
+            List item, with slider.
+            </summary>
+            <param name="text">Item label.</param>
+            <param name="items">List that contains your items.</param>
+            <param name="index">Index in the list. If unsure user 0.</param>
+        </member>
+        <member name="M:NativeUI.UIMenuSliderItem.#ctor(System.String,System.String)">
+            <summary>
+            List item, with slider.
+            </summary>
+            <param name="text">Item label.</param>
+            <param name="items">List that contains your items.</param>
+            <param name="index">Index in the list. If unsure user 0.</param>
+            <param name="description">Description for this item.</param>
+        </member>
+        <member name="M:NativeUI.UIMenuSliderItem.#ctor(System.String,System.String,System.Boolean)">
+            <summary>
+            List item, with slider.
+            </summary>
+            <param name="text">Item label.</param>
+            <param name="items">List that contains your items.</param>
+            <param name="index">Index in the list. If unsure user 0.</param>
+            <param name="description">Description for this item.</param>
+            /// <param name="divider">Put a divider in the center of the slider</param>
+        </member>
+        <member name="M:NativeUI.UIMenuSliderItem.Position(System.Int32)">
+            <summary>
+            Change item's position.
+            </summary>
+            <param name="y">New Y position.</param>
+        </member>
+        <member name="M:NativeUI.UIMenuSliderItem.Draw">
+            <summary>
+            Draw item.
+            </summary>
+        </member>
+        <member name="T:NativeUI.MenuPool">
+            <summary>
+            Helper class that handles all of your Menus. After instatiating it, you will have to add your menu by using the Add method.
+            </summary>
+        </member>
+        <member name="M:NativeUI.MenuPool.Add(NativeUI.UIMenu)">
+            <summary>
+            Add your menu to the menu pool.
+            </summary>
+            <param name="menu"></param>
+        </member>
+        <member name="M:NativeUI.MenuPool.AddSubMenu(NativeUI.UIMenu,System.String)">
+            <summary>
+            Create and add a submenu to the menu pool.
+            Adds an item with the given text to the menu, creates a corresponding submenu, and binds the submenu to the item.
+            The submenu inherits its title from the menu, and its subtitle from the item text.
+            </summary>
+            <param name="menu">The parent menu to which the submenu must be added.</param>
+            <param name="text">The name of the submenu.</param>
+            <returns>The newly created submenu.</returns>
+        </member>
+        <member name="M:NativeUI.MenuPool.AddSubMenu(NativeUI.UIMenu,System.String,System.Drawing.Point)">
+            <summary>
+            Create and add a submenu to the menu pool with a custom offset.
+            Adds an item with the given text to the menu, creates a corresponding submenu, and binds the submenu to the item.
+            The submenu inherits its title from the menu, and its subtitle from the item text.
+            </summary>
+            <param name="menu">The parent menu to which the submenu must be added.</param>
+            <param name="text">The name of the submenu</param>
+            <param name="offset">The offset of the menu</param>
+            <returns>The newly created submenu.</returns>
+        </member>
+        <member name="M:NativeUI.MenuPool.AddSubMenu(NativeUI.UIMenu,System.String,System.String)">
+            <summary>
+            Create and add a submenu to the menu pool.
+            Adds an item with the given text and description to the menu, creates a corresponding submenu, and binds the submenu to the item.
+            The submenu inherits its title from the menu, and its subtitle from the item text.
+            </summary>
+            <param name="menu">The parent menu to which the submenu must be added.</param>
+            <param name="text">The name of the submenu.</param>
+            <param name="description">The name of the submenu.</param>
+            <returns>The newly created submenu.</returns>
+        </member>
+        <member name="M:NativeUI.MenuPool.AddSubMenu(NativeUI.UIMenu,System.String,System.String,System.Drawing.Point)">
+            <summary>
+            Create and add a submenu to the menu pool.
+            Adds an item with the given text and description to the menu, creates a corresponding submenu, and binds the submenu to the item.
+            The submenu inherits its title from the menu, and its subtitle from the item text.
+            </summary>
+            <param name="menu">The parent menu to which the submenu must be added.</param>
+            <param name="text">The name of the submenu.</param>
+            <param name="description">The name of the submenu.</param>
+            <returns>The newly created submenu.</returns>
+        </member>
+        <member name="M:NativeUI.MenuPool.RefreshIndex">
+            <summary>
+            Refresh index of every menu in the pool.
+            Use this after you have finished constructing the entire menu pool.
+            </summary>
+        </member>
+        <member name="M:NativeUI.MenuPool.ToList">
+            <summary>
+            Returns all of your menus.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NativeUI.MenuPool.ProcessControl">
+            <summary>
+            Processes all of your visible menus' controls.
+            </summary>
+        </member>
+        <member name="M:NativeUI.MenuPool.ProcessKey(System.Windows.Forms.Keys)">
+            <summary>
+            Processes all of your visible menus' keys.
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="M:NativeUI.MenuPool.ProcessMouse">
+            <summary>
+            Processes all of your visible menus' mouses.
+            </summary>
+        </member>
+        <member name="M:NativeUI.MenuPool.Draw">
+            <summary>
+            Draws all visible menus.
+            </summary>
+        </member>
+        <member name="M:NativeUI.MenuPool.IsAnyMenuOpen">
+            <summary>
+            Checks if any menu is currently visible.
+            </summary>
+            <returns>true if at least one menu is visible, false if not.</returns>
+        </member>
+        <member name="M:NativeUI.MenuPool.ProcessMenus">
+            <summary>
+            Process all of your menus' functions. Call this in a tick event.
+            </summary>
+        </member>
+        <member name="M:NativeUI.MenuPool.CloseAllMenus">
+            <summary>
+            Closes all of your menus.
+            </summary>
+        </member>
+        <member name="M:NativeUI.PauseMenu.MissionLogo.#ctor(System.String)">
+            <summary>
+            Create a logo from an external picture.
+            </summary>
+            <param name="filepath">Path to the picture</param>
+        </member>
+        <member name="M:NativeUI.PauseMenu.MissionLogo.#ctor(System.String,System.String)">
+            <summary>
+            Create a mission logo from a game texture.
+            </summary>
+            <param name="textureDict">Name of the texture dictionary</param>
+            <param name="textureName">Name of the texture.</param>
+        </member>
+        <member name="M:NativeUI.Sprite.#ctor(System.String,System.String,System.Drawing.Point,System.Drawing.Size,System.Single,System.Drawing.Color)">
+            <summary>
+            Creates a game sprite object from a texture dictionary and texture name.
+            </summary>
+            <param name="textureDict"></param>
+            <param name="textureName"></param>
+            <param name="position"></param>
+            <param name="size"></param>
+            <param name="heading"></param>
+            <param name="color"></param>
+        </member>
+        <member name="M:NativeUI.Sprite.#ctor(System.String,System.String,System.Drawing.Point,System.Drawing.Size)">
+            <summary>
+            Creates a game sprite object from a texture dictionary and texture name.
+            </summary>
+            <param name="textureDict"></param>
+            <param name="textureName"></param>
+            <param name="position"></param>
+            <param name="size"></param>
+        </member>
+        <member name="M:NativeUI.Sprite.Draw">
+            <summary>
+            Draws the sprite on a 1080-pixels height base.
+            </summary>
+        </member>
+        <member name="M:NativeUI.Sprite.DrawTexture(System.String,System.Drawing.Point,System.Drawing.Size,System.Single,System.Drawing.Color)">
+            <summary>
+            Draw a custom texture from a file on a 1080-pixels height base.
+            </summary>
+            <param name="path">Path to texture file.</param>
+            <param name="position"></param>
+            <param name="size"></param>
+        </member>
+        <member name="M:NativeUI.Sprite.DrawTexture(System.String,System.Drawing.Point,System.Drawing.Size)">
+            <summary>
+            Draw a custom texture from a file on a 1080-pixels height base.
+            </summary>
+            <param name="path">Path to texture file.</param>
+            <param name="position"></param>
+            <param name="size"></param>
+        </member>
+        <member name="M:NativeUI.Sprite.WriteFileFromResources(System.Reflection.Assembly,System.String)">
+            <summary>
+            Save an embedded resource to a temporary file.
+            </summary>
+            <param name="yourAssembly">Your executing assembly.</param>
+            <param name="fullResourceName">Resource name including your solution name. E.G MyMenuMod.banner.png</param>
+            <returns>Absolute path to the written file.</returns>
+        </member>
+        <member name="M:NativeUI.Sprite.WriteFileFromResources(System.Reflection.Assembly,System.String,System.String)">
+            <summary>
+            Save an embedded resource to a concrete path.
+            </summary>
+            <param name="yourAssembly">Your executing assembly.</param>
+            <param name="fullResourceName">Resource name including your solution name. E.G MyMenuMod.banner.png</param>
+            <param name="savePath">Path to where save the file, including the filename.</param>
+            <returns>Absolute path to the written file.</returns>
+        </member>
+        <member name="M:NativeUI.StringMeasurer.MeasureString(System.String)">
+            <summary>
+            Measures width of a 0.35 scale string.
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="P:NativeUI.BarTimerBar.Percentage">
+            <summary>
+            Bar percentage. Goes from 0 to 1.
+            </summary>
+        </member>
+        <member name="T:NativeUI.UIMenu">
+            <summary>
+            Base class for NativeUI. Calls the next events: OnIndexChange, OnListChanged, OnCheckboxChange, OnItemSelect, OnMenuClose, OnMenuchange.
+            </summary>
+        </member>
+        <member name="E:NativeUI.UIMenu.OnIndexChange">
+            <summary>
+            Called when user presses up or down, changing current selection.
+            </summary>
+        </member>
+        <member name="E:NativeUI.UIMenu.OnListChange">
+            <summary>
+            Called when user presses left or right, changing a list position.
+            </summary>
+        </member>
+        <member name="E:NativeUI.UIMenu.OnCheckboxChange">
+            <summary>
+            Called when user presses enter on a checkbox item.
+            </summary>
+        </member>
+        <member name="E:NativeUI.UIMenu.OnItemSelect">
+            <summary>
+            Called when user selects a simple item.
+            </summary>
+        </member>
+        <member name="E:NativeUI.UIMenu.OnSliderChange">
+            <summary>
+            Called when user presses left or right, changing a slider position.
+            </summary>
+        </member>
+        <member name="E:NativeUI.UIMenu.OnMenuOpen">
+            <summary>
+            Called when user opens the menu.
+            </summary>
+        </member>
+        <member name="E:NativeUI.UIMenu.OnMenuClose">
+            <summary>
+            Called when user closes the menu or goes back in a menu chain.
+            </summary>
+        </member>
+        <member name="E:NativeUI.UIMenu.OnMenuChange">
+            <summary>
+            Called when user either clicks on a binded button or goes back to a parent menu.
+            </summary>
+        </member>
+        <member name="M:NativeUI.UIMenu.#ctor(System.String,System.String)">
+            <summary>
+            Basic Menu constructor.
+            </summary>
+            <param name="title">Title that appears on the big banner.</param>
+            <param name="subtitle">Subtitle that appears in capital letters in a small black bar.</param>
+        </member>
+        <member name="M:NativeUI.UIMenu.#ctor(System.String,System.String,System.Drawing.Point)">
+            <summary>
+            Basic Menu constructor with an offset.
+            </summary>
+            <param name="title">Title that appears on the big banner.</param>
+            <param name="subtitle">Subtitle that appears in capital letters in a small black bar. Set to "" if you dont want a subtitle.</param>
+            <param name="offset">Point object with X and Y data for offsets. Applied to all menu elements.</param>
+        </member>
+        <member name="M:NativeUI.UIMenu.#ctor(System.String,System.String,System.Drawing.Point,System.String)">
+            <summary>
+            Initialise a menu with a custom texture banner.
+            </summary>
+            <param name="title">Title that appears on the big banner. Set to "" if you don't want a title.</param>
+            <param name="subtitle">Subtitle that appears in capital letters in a small black bar. Set to "" if you dont want a subtitle.</param>
+            <param name="offset">Point object with X and Y data for offsets. Applied to all menu elements.</param>
+            <param name="customBanner">Path to your custom texture.</param>
+        </member>
+        <member name="M:NativeUI.UIMenu.#ctor(System.String,System.String,System.Drawing.Point,System.String,System.String)">
+            <summary>
+            Advanced Menu constructor that allows custom title banner.
+            </summary>
+            <param name="title">Title that appears on the big banner. Set to "" if you are using a custom banner.</param>
+            <param name="subtitle">Subtitle that appears in capital letters in a small black bar.</param>
+            <param name="offset">Point object with X and Y data for offsets. Applied to all menu elements.</param>
+            <param name="spriteLibrary">Sprite library name for the banner.</param>
+            <param name="spriteName">Sprite name for the banner.</param>
+        </member>
+        <member name="M:NativeUI.UIMenu.DisEnableControls(System.Boolean)">
+            <summary>
+            Enable or disable all controls but the necessary to operate a menu.
+            </summary>
+            <param name="enable"></param>
+        </member>
+        <member name="M:NativeUI.UIMenu.GetScreenResolutionMaintainRatio">
+            <summary>
+            Returns the 1080pixels-based screen resolution while mantaining current aspect ratio.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NativeUI.UIMenu.GetScreenResolutionMantainRatio">
+            <summary>
+            Old GetScreenResolutionMantainRatio Method to support old versions
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NativeUI.UIMenu.IsMouseInBounds(System.Drawing.Point,System.Drawing.Size)">
+            <summary>
+            Chech whether the mouse is inside the specified rectangle.
+            </summary>
+            <param name="topLeft">top left point of your rectangle.</param>
+            <param name="boxSize">size of your rectangle.</param>
+            <returns></returns>
+        </member>
+        <member name="M:NativeUI.UIMenu.GetSafezoneBounds">
+            <summary>
+            Returns the safezone bounds in pixel, relative to the 1080pixel based system.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NativeUI.UIMenu.SetMenuWidthOffset(System.Int32)">
+            <summary>
+            Change the menu's width. The width is calculated as DefaultWidth + WidthOffset, so a width offset of 10 would enlarge the menu by 10 pixels.
+            </summary>
+            <param name="widthOffset">New width offset.</param>
+        </member>
+        <member name="M:NativeUI.UIMenu.DisableInstructionalButtons(System.Boolean)">
+            <summary>
+            Enable or disable the instructional buttons.
+            </summary>
+            <param name="disable"></param>
+        </member>
+        <member name="M:NativeUI.UIMenu.SetBannerType(NativeUI.Sprite)">
+            <summary>
+            Set the banner to your own Sprite object.
+            </summary>
+            <param name="spriteBanner">Sprite object. The position and size does not matter.</param>
+        </member>
+        <member name="M:NativeUI.UIMenu.SetBannerType(NativeUI.UIResRectangle)">
+            <summary>
+             Set the banner to your own Rectangle.
+            </summary>
+            <param name="rectangle">UIResRectangle object. Position and size does not matter.</param>
+        </member>
+        <member name="M:NativeUI.UIMenu.SetBannerType(System.String)">
+            <summary>
+            Set the banner to your own custom texture. Set it to "" if you want to restore the banner.
+            </summary>
+            <param name="pathToCustomSprite">Path to your sprite image.</param>
+        </member>
+        <member name="M:NativeUI.UIMenu.AddItem(NativeUI.UIMenuItem)">
+            <summary>
+            Add an item to the menu.
+            </summary>
+            <param name="item">Item object to be added. Can be normal item, checkbox or list item.</param>
+        </member>
+        <member name="M:NativeUI.UIMenu.RemoveItemAt(System.Int32)">
+            <summary>
+            Remove an item at index n.
+            </summary>
+            <param name="index">Index to remove the item at.</param>
+        </member>
+        <member name="M:NativeUI.UIMenu.RefreshIndex">
+            <summary>
+            Reset the current selected item to 0. Use this after you add or remove items dynamically.
+            </summary>
+        </member>
+        <member name="M:NativeUI.UIMenu.Clear">
+            <summary>
+            Remove all items from the menu.
+            </summary>
+        </member>
+        <member name="M:NativeUI.UIMenu.Remove(System.Func{NativeUI.UIMenuItem,System.Boolean})">
+            <summary>
+            Removes the items that matches the predicate.
+            </summary>
+            <param name="predicate">The function to use as the check.</param>
+        </member>
+        <member name="M:NativeUI.UIMenu.GoUpOverflow">
+            <summary>
+            Go up the menu if the number of items is more than maximum items on screen.
+            </summary>
+        </member>
+        <member name="M:NativeUI.UIMenu.GoUp">
+            <summary>
+            Go up the menu if the number of items is less than or equal to the maximum items on screen.
+            </summary>
+        </member>
+        <member name="M:NativeUI.UIMenu.GoDownOverflow">
+            <summary>
+            Go down the menu if the number of items is more than maximum items on screen.
+            </summary>
+        </member>
+        <member name="M:NativeUI.UIMenu.GoDown">
+            <summary>
+            Go up the menu if the number of items is less than or equal to the maximum items on screen.
+            </summary>
+        </member>
+        <member name="M:NativeUI.UIMenu.GoLeft">
+            <summary>
+            Go left on a UIMenuListItem, UIMenuDynamicListItem or UIMenuSliderItem.
+            </summary>
+        </member>
+        <member name="M:NativeUI.UIMenu.GoRight">
+            <summary>
+            Go right on a UIMenuListItem.
+            </summary>
+        </member>
+        <member name="M:NativeUI.UIMenu.SelectItem">
+            <summary>
+            Activate the current selected item.
+            </summary>
+        </member>
+        <member name="M:NativeUI.UIMenu.GoBack">
+            <summary>
+            Close or go back in a menu chain.
+            </summary>
+        </member>
+        <member name="M:NativeUI.UIMenu.BindMenuToItem(NativeUI.UIMenu,NativeUI.UIMenuItem)">
+            <summary>
+            Makes the specified item open a menu when is activated.
+            </summary>
+            <param name="menuToBind">The menu that is going to be opened when the item is activated.</param>
+            <param name="itemToBindTo">The item that is going to activate the menu.</param>
+        </member>
+        <member name="M:NativeUI.UIMenu.ReleaseMenuFromItem(NativeUI.UIMenuItem)">
+            <summary>
+            Remove menu binding from button.
+            </summary>
+            <param name="releaseFrom">Button to release from.</param>
+            <returns>Returns true if the operation was successful.</returns>
+        </member>
+        <member name="M:NativeUI.UIMenu.SetKey(NativeUI.UIMenu.MenuControls,System.Windows.Forms.Keys)">
+            <summary>
+            Set a key to control a menu. Can be multiple keys for each control.
+            </summary>
+            <param name="control"></param>
+            <param name="keyToSet"></param>
+        </member>
+        <member name="M:NativeUI.UIMenu.SetKey(NativeUI.UIMenu.MenuControls,GTA.Control)">
+            <summary>
+            Set a GTA.Control to control a menu. Can be multiple controls. This applies it to all indexes.
+            </summary>
+            <param name="control"></param>
+            <param name="gtaControl"></param>
+        </member>
+        <member name="M:NativeUI.UIMenu.SetKey(NativeUI.UIMenu.MenuControls,GTA.Control,System.Int32)">
+            <summary>
+            Set a GTA.Control to control a menu only on a specific index.
+            </summary>
+            <param name="control"></param>
+            <param name="gtaControl"></param>
+            <param name="controlIndex"></param>
+        </member>
+        <member name="M:NativeUI.UIMenu.ResetKey(NativeUI.UIMenu.MenuControls)">
+            <summary>
+            Remove all controls on a control.
+            </summary>
+            <param name="control"></param>
+        </member>
+        <member name="M:NativeUI.UIMenu.HasControlJustBeenPressed(NativeUI.UIMenu.MenuControls,System.Windows.Forms.Keys)">
+            <summary>
+            Check whether a menucontrol has been pressed.
+            </summary>
+            <param name="control">Control to check for.</param>
+            <param name="key">Key if you're using keys.</param>
+            <returns></returns>
+        </member>
+        <member name="M:NativeUI.UIMenu.HasControlJustBeenReleaseed(NativeUI.UIMenu.MenuControls,System.Windows.Forms.Keys)">
+            <summary>
+            Check whether a menucontrol has been released.
+            </summary>
+            <param name="control">Control to check for.</param>
+            <param name="key">Key if you're using keys.</param>
+            <returns></returns>
+        </member>
+        <member name="M:NativeUI.UIMenu.IsControlBeingPressed(NativeUI.UIMenu.MenuControls,System.Windows.Forms.Keys)">
+            <summary>
+            Check whether a menucontrol is being pressed.
+            </summary>
+            <param name="control"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NativeUI.UIMenu.IsMouseInListItemArrows(NativeUI.UIMenuItem,System.Drawing.Point,System.Drawing.Point)">
+            <summary>
+            Function to get whether the cursor is in an arrow space, or in label of an UIMenuListItem.
+            </summary>
+            <param name="item">What item to check</param>
+            <param name="topLeft">top left point of the item.</param>
+            <param name="safezone">safezone size.</param>
+            <returns>0 - Not in item at all, 1 - In label, 2 - In arrow space.</returns>
+        </member>
+        <member name="M:NativeUI.UIMenu.FormatDescription(System.String)">
+            <summary>
+            Formats the input string so it doesn't go out of bounds of the description box.
+            </summary>
+            <param name="input">String to format.</param>
+            <returns></returns>
+        </member>
+        <member name="M:NativeUI.UIMenu.Draw">
+            <summary>
+            Draw the menu and all of it's components.
+            </summary>
+        </member>
+        <member name="M:NativeUI.UIMenu.ProcessMouse">
+            <summary>
+            Process the mouse's position and check if it's hovering over any UI element. Call this in OnTick
+            </summary>
+        </member>
+        <member name="M:NativeUI.UIMenu.ProcessControl(System.Windows.Forms.Keys)">
+            <summary>
+            Process control-stroke. Call this in the OnTick event.
+            </summary>
+        </member>
+        <member name="M:NativeUI.UIMenu.ProcessKey(System.Windows.Forms.Keys)">
+            <summary>
+            Process keystroke. Call this in the OnKeyDown event.
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="M:NativeUI.UIMenu.UpdateScaleform">
+            <summary>
+            Manually update the instructional buttons scaleform.
+            </summary>
+        </member>
+        <member name="P:NativeUI.UIMenu.Visible">
+            <summary>
+            Change whether this menu is visible to the user.
+            </summary>
+        </member>
+        <member name="P:NativeUI.UIMenu.CurrentSelection">
+            <summary>
+            Returns the current selected item's index.
+            Change the current selected item to index. Use this after you add or remove items dynamically.
+            </summary>
+        </member>
+        <member name="P:NativeUI.UIMenu.IsUsingController">
+            <summary>
+            Returns false if last input was made with mouse and keyboard, true if it was made with a controller.
+            </summary>
+        </member>
+        <member name="P:NativeUI.UIMenu.Size">
+            <summary>
+            Returns the amount of items in the menu.
+            </summary>
+        </member>
+        <member name="P:NativeUI.UIMenu.Title">
+            <summary>
+            Returns the title object.
+            </summary>
+        </member>
+        <member name="P:NativeUI.UIMenu.Subtitle">
+            <summary>
+            Returns the subtitle object.
+            </summary>
+        </member>
+        <member name="P:NativeUI.UIMenu.CounterPretext">
+            <summary>
+            String to pre-attach to the counter string. Useful for color codes.
+            </summary>
+        </member>
+        <member name="P:NativeUI.UIMenu.ParentMenu">
+            <summary>
+            If this is a nested menu, returns the parent menu. You can also set it to a menu so when pressing Back it goes to that menu.
+            </summary>
+        </member>
+        <member name="P:NativeUI.UIMenu.ParentItem">
+            <summary>
+            If this is a nested menu, returns the item it was bound to.
+            </summary>
+        </member>
+        <member name="P:NativeUI.UIMenu.WidthOffset">
+            <summary>
+            Returns the current width offset.
+            </summary>
+        </member>
+        <member name="E:NativeUI.UIMenuCheckboxItem.CheckboxEvent">
+            <summary>
+            Triggered when the checkbox state is changed.
+            </summary>
+        </member>
+        <member name="M:NativeUI.UIMenuCheckboxItem.#ctor(System.String,System.Boolean)">
+            <summary>
+            Checkbox item with a toggleable checkbox.
+            </summary>
+            <param name="text">Item label.</param>
+            <param name="check">Boolean value whether the checkbox is checked.</param>
+        </member>
+        <member name="M:NativeUI.UIMenuCheckboxItem.#ctor(System.String,System.Boolean,System.String)">
+            <summary>
+            Checkbox item with a toggleable checkbox.
+            </summary>
+            <param name="text">Item label.</param>
+            <param name="check">Boolean value whether the checkbox is checked.</param>
+            <param name="description">Description for this item.</param>
+        </member>
+        <member name="P:NativeUI.UIMenuCheckboxItem.Checked">
+            <summary>
+            Change or get whether the checkbox is checked.
+            </summary>
+        </member>
+        <member name="M:NativeUI.UIMenuCheckboxItem.Position(System.Int32)">
+            <summary>
+            Change item's position.
+            </summary>
+            <param name="y">New Y value.</param>
+        </member>
+        <member name="M:NativeUI.UIMenuCheckboxItem.Draw">
+            <summary>
+            Draw item.
+            </summary>
+        </member>
+        <member name="T:NativeUI.UIMenuItem">
+            <summary>
+            Simple item with a label.
+            </summary>
+        </member>
+        <member name="E:NativeUI.UIMenuItem.Activated">
+            <summary>
+            Called when user selects the current item.
+            </summary>
+        </member>
+        <member name="M:NativeUI.UIMenuItem.#ctor(System.String)">
+            <summary>
+            Basic menu button.
+            </summary>
+            <param name="text">Button label.</param>
+        </member>
+        <member name="M:NativeUI.UIMenuItem.#ctor(System.String,System.String)">
+            <summary>
+            Basic menu button.
+            </summary>
+            <param name="text">Button label.</param>
+            <param name="description">Description.</param>
+        </member>
+        <member name="P:NativeUI.UIMenuItem.Selected">
+            <summary>
+            Whether this item is currently selected.
+            </summary>
+        </member>
+        <member name="P:NativeUI.UIMenuItem.Hovered">
+            <summary>
+            Whether this item is currently being hovered on with a mouse.
+            </summary>
+        </member>
+        <member name="P:NativeUI.UIMenuItem.Description">
+            <summary>
+            This item's description.
+            </summary>
+        </member>
+        <member name="P:NativeUI.UIMenuItem.Enabled">
+            <summary>
+            Whether this item is enabled or disabled (text is greyed out and you cannot select it).
+            </summary>
+        </member>
+        <member name="M:NativeUI.UIMenuItem.Position(System.Int32)">
+            <summary>
+            Set item's position.
+            </summary>
+            <param name="y"></param>
+        </member>
+        <member name="M:NativeUI.UIMenuItem.Draw">
+            <summary>
+            Draw this item.
+            </summary>
+        </member>
+        <member name="P:NativeUI.UIMenuItem.Offset">
+            <summary>
+            This item's offset.
+            </summary>
+        </member>
+        <member name="P:NativeUI.UIMenuItem.Text">
+            <summary>
+            Returns this item's label.
+            </summary>
+        </member>
+        <member name="M:NativeUI.UIMenuItem.SetLeftBadge(NativeUI.UIMenuItem.BadgeStyle)">
+            <summary>
+            Set the left badge. Set it to None to remove the badge.
+            </summary>
+            <param name="badge"></param>
+        </member>
+        <member name="M:NativeUI.UIMenuItem.SetRightBadge(NativeUI.UIMenuItem.BadgeStyle)">
+            <summary>
+            Set the right badge. Set it to None to remove the badge.
+            </summary>
+            <param name="badge"></param>
+        </member>
+        <member name="M:NativeUI.UIMenuItem.SetRightLabel(System.String)">
+            <summary>
+            Set the right label.
+            </summary>
+            <param name="text">Text as label. Set it to "" to remove the label.</param>
+        </member>
+        <member name="P:NativeUI.UIMenuItem.RightLabel">
+            <summary>
+            Returns the current right label.
+            </summary>
+        </member>
+        <member name="P:NativeUI.UIMenuItem.LeftBadge">
+            <summary>
+            Returns the current left badge.
+            </summary>
+        </member>
+        <member name="P:NativeUI.UIMenuItem.RightBadge">
+            <summary>
+            Returns the current right badge.
+            </summary>
+        </member>
+        <member name="P:NativeUI.UIMenuItem.Parent">
+            <summary>
+            Returns the menu this item is in.
+            </summary>
+        </member>
+        <member name="E:NativeUI.UIMenuListItem.OnListChanged">
+            <summary>
+            Triggered when the list is changed.
+            </summary>
+        </member>
+        <member name="P:NativeUI.UIMenuListItem.Index">
+            <summary>
+            Returns the current selected index.
+            </summary>
+        </member>
+        <member name="P:NativeUI.UIMenuListItem.Items">
+            <summary>
+            Returns the current selected index.
+            </summary>
+        </member>
+        <member name="M:NativeUI.UIMenuListItem.#ctor(System.String,System.Collections.Generic.List{System.Object},System.Int32)">
+            <summary>
+            List item, with left/right arrows.
+            </summary>
+            <param name="text">Item label.</param>
+            <param name="items">List that contains your items.</param>
+            <param name="index">Index in the list. If unsure user 0.</param>
+        </member>
+        <member name="M:NativeUI.UIMenuListItem.#ctor(System.String,System.Collections.Generic.List{System.Object},System.Int32,System.String)">
+            <summary>
+            List item, with left/right arrows.
+            </summary>
+            <param name="text">Item label.</param>
+            <param name="items">List that contains your items.</param>
+            <param name="index">Index in the list. If unsure user 0.</param>
+            <param name="description">Description for this item.</param>
+        </member>
+        <member name="M:NativeUI.UIMenuListItem.Position(System.Int32)">
+            <summary>
+            Change item's position.
+            </summary>
+            <param name="y">New Y position.</param>
+        </member>
+        <member name="M:NativeUI.UIMenuListItem.ItemToIndex(System.Object)">
+            <summary>
+            Find an item in the list and return it's index.
+            </summary>
+            <param name="item">Item to search for.</param>
+            <returns>Item index.</returns>
+        </member>
+        <member name="M:NativeUI.UIMenuListItem.IndexToItem(System.Int32)">
+            <summary>
+            Find an item by it's index and return the item.
+            </summary>
+            <param name="index">Item's index.</param>
+            <returns>Item</returns>
+        </member>
+        <member name="M:NativeUI.UIMenuListItem.Draw">
+            <summary>
+            Draw item.
+            </summary>
+        </member>
+        <member name="T:NativeUI.UIResRectangle">
+            <summary>
+            A rectangle in 1080 pixels height system.
+            </summary>
+        </member>
+        <member name="T:NativeUI.UIResText">
+            <summary>
+            A Text object in the 1080 pixels height base system.
+            </summary>
+        </member>
+        <member name="M:NativeUI.UIResText.AddLongString(System.String)">
+            <summary>
+            Push a long string into the stack.
+            </summary>
+            <param name="str"></param>
+        </member>
+    </members>
+</doc>
